@@ -9,6 +9,25 @@ void limpar_terminal(void) {
     printf("\033[2J\033[H");
 }
 
+int ler_inteiro(void) {
+    char linha[32];
+    int numero;
+
+    if (fgets(linha, sizeof(linha), stdin) == NULL) {
+        return -1;
+    }
+
+    if (sscanf(linha, "%d", &numero) != 1) {
+        return -1;
+    }
+
+    return numero;
+}
+
+
+
+
+
 ClasseDoPersonagem menu_escolher_classe(void){
 	int classe = 4;
 	do{
@@ -36,21 +55,20 @@ ClasseDoPersonagem menu_escolher_classe(void){
 		printf("\n");
 		printf("\n");
 		printf("ESCOLHA A CLASSE DO SEU PERSONAGEM : ");
-		scanf("%d", &classe);
-		classe = classe - 1;
+		classe = ler_inteiro();
 
-		if (classe < 0 || classe > 2){
+		if (classe < 1 || classe > 3){
 			printf("\n");
 			printf("\n");
 			printf("CLASSE INVALIDA ! TENTE NOVAMENTE ! \n");
 			printf("press ENTER para continuar");
 
-			getchar();
-			getchar();
+			char descarte[32];
+			fgets(descarte,sizeof(descarte), stdin);
 		}
 
-	}while (classe < 0 || classe > 2);
+	}while (classe < 1 || classe > 3);
 
-	return classe;
+	return classe - 1;
 
 }
