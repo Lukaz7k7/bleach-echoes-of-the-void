@@ -1,0 +1,56 @@
+#include <string.h>
+
+#include "menu.h"
+
+#include <stdio.h>
+
+
+void limpar_terminal(void) {
+    printf("\033[2J\033[H");
+}
+
+ClasseDoPersonagem menu_escolher_classe(void){
+	int classe = 4;
+	do{
+
+		limpar_terminal();
+
+		printf("BLEACH\n");
+		printf("ECHOES OF THE VOID\n");
+
+		printf("\n[1] SHINIGAMI\n");
+		printf("Guerreiros da Soul Society. Classe equilibrada,");
+		printf(" com boa vida, forca e defesa.\n");
+		printf("Vida: 110 | Forca: 11 | Defesa: 9 | Agilidade: 7 | Inteligencia: 7\n");
+
+		printf("\n[2] QUINCY\n");
+		printf("Manipuladores de particulas espirituais.");
+		printf(" Especialistas em velocidade e inteligencia.\n");
+		printf("Vida: 90 | Forca: 7 | Defesa: 6 | Agilidade: 12 | Inteligencia: 10\n");
+
+		printf("\n[3] HOLLOW\n");
+		printf("Criaturas espirituais predadoras. Possuem");
+		printf(" grande forca fisica, mas pouca defesa.\n");
+		printf("Vida: 100 | Forca: 13 | Defesa: 4 | Agilidade: 8 | Inteligencia: 4\n");
+
+		printf("\n");
+		printf("\n");
+		printf("ESCOLHA A CLASSE DO SEU PERSONAGEM : ");
+		scanf("%d", &classe);
+		classe = classe - 1;
+
+		if (classe < 0 || classe > 2){
+			printf("\n");
+			printf("\n");
+			printf("CLASSE INVALIDA ! TENTE NOVAMENTE ! \n");
+			printf("press ENTER para continuar");
+
+			getchar();
+			getchar();
+		}
+
+	}while (classe < 0 || classe > 2);
+
+	return classe;
+
+}

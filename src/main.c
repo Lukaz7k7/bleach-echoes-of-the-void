@@ -4,11 +4,14 @@
 
 #include "personagem.h"
 
+#include "menu.h"
+
 int main(){
-        printf("bleach echoes of the void \n");
 	Personagem personagem;
 
-	criar_personagem(&personagem,0 , "Lucas antonio");
+	ClasseDoPersonagem classe = menu_escolher_classe();
+
+	criar_personagem(&personagem,classe , "Lucas antonio");
 
 	mostrar_personagem(&personagem);
 
