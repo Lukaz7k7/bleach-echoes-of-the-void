@@ -26,7 +26,7 @@ typedef enum{
 
 typedef struct {
 	char nome[50];
-	ClasseDoPersonagem classe ;
+	ClasseDoPersonagem classe;
 	int vida_atual;
 	int vida_maxima;
 	int forca;
@@ -37,6 +37,26 @@ typedef struct {
 	int xp;
 	int nivel;
 	char arma[50];
+	char roupa[50];
 } Personagem;
 
+typedef struct {
+	char nome[50];
+	char descricao[100];
+	int vida_atual;
+	int vida_maxima;
+	int ataque;
+	int defesa;
+	int nivel;
+	int xp_recompensa;
+} Monstro;
+
+typedef struct {
+	int visitada;
+	TipoDeCasa evento;
+} Casa;
+
 #endif
+
+
+
