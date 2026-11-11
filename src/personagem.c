@@ -2,6 +2,8 @@
 
 #include "personagem.h"
 
+#include <stdio.h>
+
 void criar_personagem(Personagem *p, ClasseDoPersonagem classe, char nome[]) {
 	strcpy(p->nome, nome);
 	p->classe = classe;
@@ -43,4 +45,70 @@ void criar_personagem(Personagem *p, ClasseDoPersonagem classe, char nome[]) {
 			break;
 	}
 }
+
+const char *nome_da_classe(ClasseDoPersonagem classe){
+	switch (classe){
+		case CLASSE_SHINIGAMI:
+			return "Shinigami";
+
+		case CLASSE_QUINCY:
+			return "Quincy";
+
+		case CLASSE_HOLLOW:
+			return "Hollow";
+	}
+	return "desconhecida";
+
+}
+
+
+
+void mostrar_personagem(Personagem *p) {
+
+    printf("\n");
+    printf("  +------------------------------------------------------+\n");
+    printf("  |                  STATUS DO GUERREIRO                 \n");
+    printf("  +------------------------------------------------------+\n");
+
+    printf("  | NOME: %-20s CLASSE: %-14s \n",
+           p->nome, nome_da_classe(p->classe));
+
+    printf("  +------------------------------------------------------+\n");
+    printf("  | VIDA: %d/%d                                      \n",
+           p->vida_atual, p->vida_maxima);
+
+    printf("  | NIVEL: %-4d XP: %-10d                       \n",
+           p->nivel, p->xp);
+
+    printf("  +------------------------------------------------------+\n");
+    printf("  |                     ATRIBUTOS                        \n");
+
+    printf("  | FORCA: %-4d DEFESA: %-4d AGILIDADE: %-4d      \n",
+           p->forca, p->defesa, p->agilidade);
+
+    printf("  | INTELIGENCIA: %-5d                                \n",
+           p->inteligencia);
+
+    printf("  +------------------------------------------------------+\n");
+    printf("  |                    EQUIPAMENTOS                      \n");
+
+    printf("  | ARMA: %-47s \n", p->arma);
+    printf("  | ROUPA: %-46s \n", p->roupa);
+
+    printf("  +------------------------------------------------------+\n");
+    printf("\n");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -10,11 +10,7 @@ int main(){
 
 	criar_personagem(&personagem,0 , "Lucas antonio");
 
-	printf("nome = %s \n", personagem.nome);
-	printf("vida atual = %d \n", personagem.vida_atual);
-	printf("arma = %s \n ", personagem.arma);
-	printf("roupa = %s \n ", personagem.roupa);
-
+	mostrar_personagem(&personagem);
 
         return 0;
 
