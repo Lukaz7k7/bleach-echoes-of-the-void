@@ -7,11 +7,15 @@
 #include "menu.h"
 
 int main(){
+	char nome[100];
+
 	Personagem personagem;
 
 	ClasseDoPersonagem classe = menu_escolher_classe();
 
-	criar_personagem(&personagem,classe , "Lucas antonio");
+	ler_nome(nome, 32);
+
+	criar_personagem(&personagem,classe , nome);
 
 	mostrar_personagem(&personagem);
 

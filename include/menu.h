@@ -10,4 +10,6 @@ ClasseDoPersonagem menu_escolher_classe(void);
 
 int ler_inteiro(void);
 
+void ler_nome(char nome[], int tamanho);
+
 #endif

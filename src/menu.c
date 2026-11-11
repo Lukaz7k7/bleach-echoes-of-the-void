@@ -24,10 +24,6 @@ int ler_inteiro(void) {
     return numero;
 }
 
-
-
-
-
 ClasseDoPersonagem menu_escolher_classe(void){
 	int classe = 4;
 	do{
@@ -70,5 +66,27 @@ ClasseDoPersonagem menu_escolher_classe(void){
 	}while (classe < 1 || classe > 3);
 
 	return classe - 1;
+
+}
+
+void ler_nome(char nome[], int tamanho){
+	do{
+		limpar_terminal();
+		printf("digite o nome do seu personagem : ");
+		fgets(nome , tamanho , stdin);
+		nome[strcspn(nome, "\n")] = '\0';
+
+		if(nome[0] == '\0'){
+			printf("NOME INVALIDO, DIGITE NOVAMENTE !\n");
+			printf("press ENTER para continuar");
+			char descarte[32];
+			fgets(descarte, sizeof(descarte), stdin);
+
+		}
+
+
+	}while(nome[0] == '\0');
+
+
 
 }
