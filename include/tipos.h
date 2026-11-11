@@ -1,5 +1,8 @@
 #ifndef TIPOS_H
+
 #define TIPOS_H
+
+#define TAM_TABULEIRO 12
 
 typedef enum{
 	CLASSE_SHINIGAMI,
@@ -55,6 +58,12 @@ typedef struct {
 	int visitada;
 	TipoDeCasa evento;
 } Casa;
+
+typedef struct {
+	Casa casas[TAM_TABULEIRO];
+	int posicao_player;
+	int fase_atual;
+} Tabuleiro;
 
 #endif
 
