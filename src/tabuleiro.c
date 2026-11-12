@@ -59,6 +59,8 @@ static char *nome_da_casa(TipoDeCasa tipo){
 }
 
 
+
+
 void mostrar_tabuleiro(Tabuleiro *t) {
 
     const char *nome_fase;
@@ -160,3 +162,27 @@ void mostrar_tabuleiro(Tabuleiro *t) {
 
     printf("\n===============================================================\n");
 }
+
+
+void mover_personagem(Tabuleiro *t ,int passos ){
+	int limite = 0;
+
+	if(t->missao_concluida == 1){
+		limite = TAM_TABULEIRO - 1;
+	}
+
+	else{
+		limite = INDICE_MISSAO;
+	}
+
+		if((t->posicao_player + passos) < limite ){
+			t->posicao_player = t->posicao_player + passos;
+		}
+
+		else{
+			t->posicao_player = limite;
+		}
+
+
+}
+

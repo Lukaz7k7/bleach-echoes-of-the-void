@@ -4,6 +4,10 @@
 
 #define TAM_TABULEIRO 12
 
+#define INDICE_MISSAO 8
+
+#define DADO_MOVIMENTACAO 6
+
 typedef enum{
 	CLASSE_SHINIGAMI,
 	CLASSE_QUINCY,

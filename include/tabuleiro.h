@@ -9,4 +9,6 @@ void montar_tabuleiro(Tabuleiro *t, int fase);
 
 void mostrar_tabuleiro(Tabuleiro *t);
 
+void mover_personagem(Tabuleiro *t, int passos);
+
 #endif

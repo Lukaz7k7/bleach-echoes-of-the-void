@@ -35,6 +35,32 @@ int main(){
 
 	mostrar_tabuleiro(&tab);
 
+	tab.missao_concluida = 1;
+
+	for(int i = 0; i < 8; i++){
+		int passos = 0;
+
+		printf("press ENTER para rolar o dado\n");
+		char descarte[32];
+		fgets(descarte, sizeof(descarte), stdin);
+
+		passos = rolar_dado(DADO_MOVIMENTACAO);
+
+		limpar_terminal();
+
+		printf("VOCE TIROU --> %d <-- NO DADO\n", passos);
+		printf("press ENTER para andar no tabuleiro\n");
+
+                fgets(descarte, sizeof(descarte), stdin);
+
+		limpar_terminal();
+
+                mover_personagem(&tab, passos );
+		mostrar_personagem(&personagem);
+		mostrar_tabuleiro(&tab);
+
+	}
+
         return 0;
 
 }
