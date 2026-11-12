@@ -86,7 +86,7 @@ void ler_nome(char nome[], int tamanho){
 		if(nome[0] == '\0'){
 			printf("NOME INVALIDO, DIGITE NOVAMENTE !\n");
 			printf("press ENTER para continuar");
-			pauasr();
+			pausar();
 
 		}
 

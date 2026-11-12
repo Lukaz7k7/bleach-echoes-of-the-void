@@ -17,6 +17,11 @@ typedef enum{
 } ClasseDoPersonagem;
 
 typedef enum{
+	RESULTADO_FASE_CONCLUIDA,
+	RESULTADO_FASE_DERROTA
+} ResultadoFase;
+
+typedef enum{
 	CASA_VAZIA,
 	CASA_COMBATE,
 	CASA_TESOURO,
