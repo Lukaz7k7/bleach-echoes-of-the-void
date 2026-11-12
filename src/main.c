@@ -12,6 +12,8 @@
 
 #include "jogo.h"
 
+#include "tabuleiro.h"
+
 int main(){
 	srand(time(NULL));
 
@@ -21,11 +23,17 @@ int main(){
 
 	ClasseDoPersonagem classe = menu_escolher_classe();
 
-	ler_nome(nome, 32);
+	ler_nome(nome, sizeof(nome));
 
 	criar_personagem(&personagem,classe , nome);
 
 	mostrar_personagem(&personagem);
+
+	Tabuleiro tab;
+
+	montar_tabuleiro(&tab , 1);
+
+	mostrar_tabuleiro(&tab);
 
         return 0;
 
