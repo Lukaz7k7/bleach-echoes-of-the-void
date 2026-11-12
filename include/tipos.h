@@ -8,6 +8,8 @@
 
 #define DADO_MOVIMENTACAO 6
 
+#define XP_TESOURO 50
+
 typedef enum{
 	CLASSE_SHINIGAMI,
 	CLASSE_QUINCY,

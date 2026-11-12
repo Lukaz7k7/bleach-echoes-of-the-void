@@ -6,6 +6,8 @@
 
 void limpar_terminal(void);
 
+void pausar(void);
+
 ClasseDoPersonagem menu_escolher_classe(void);
 
 int ler_inteiro(void);

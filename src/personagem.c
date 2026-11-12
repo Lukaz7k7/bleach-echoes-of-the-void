@@ -1,3 +1,4 @@
+
 #include <string.h>
 
 #include "personagem.h"
@@ -98,6 +99,42 @@ void mostrar_personagem(Personagem *p) {
     printf("  +------------------------------------------------------+\n");
     printf("\n");
 }
+
+
+void receber_dano(Personagem *p, int dano){
+        if (dano <= 0) {
+                return;
+        }
+
+	if((p->vida_atual - dano) <= 0){
+		p->vida_atual = 0;
+	}
+
+	else{
+		p->vida_atual = p->vida_atual - dano;
+	}
+}
+
+void curar(Personagem *p, int cura){
+	if (cura <= 0) {
+        return;
+        }
+
+	if((p->vida_atual + cura) > p->vida_maxima){
+		p->vida_atual = p->vida_maxima;
+	}
+
+	else{
+		p->vida_atual = p->vida_atual + cura;
+	}
+}
+
+void ganhar_xp(Personagem *p, int xp){
+	p->xp = p->xp + xp;
+}
+
+
+
 
 
 

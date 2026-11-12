@@ -27,38 +27,39 @@ int main(){
 
 	criar_personagem(&personagem,classe , nome);
 
-	mostrar_personagem(&personagem);
-
 	Tabuleiro tab;
 
 	montar_tabuleiro(&tab , 1);
 
-	mostrar_tabuleiro(&tab);
-
-	tab.missao_concluida = 1;
-
 	for(int i = 0; i < 8; i++){
-		int passos = 0;
+
+		limpar_terminal();
+
+		mostrar_personagem(&personagem);
+		mostrar_tabuleiro(&tab);
 
 		printf("press ENTER para rolar o dado\n");
-		char descarte[32];
-		fgets(descarte, sizeof(descarte), stdin);
 
-		passos = rolar_dado(DADO_MOVIMENTACAO);
+		pausar();
+
+		int passos = rolar_dado(DADO_MOVIMENTACAO);
+
+		mover_personagem(&tab, passos);
 
 		limpar_terminal();
 
 		printf("VOCE TIROU --> %d <-- NO DADO\n", passos);
-		printf("press ENTER para andar no tabuleiro\n");
 
-                fgets(descarte, sizeof(descarte), stdin);
+		executar_evento(&personagem, &tab);
 
-		limpar_terminal();
+                printf("\nPressione ENTER para continuar...\n");
+                pausar();
 
-                mover_personagem(&tab, passos );
-		mostrar_personagem(&personagem);
-		mostrar_tabuleiro(&tab);
-
+		if(personagem.vida_atual <= 0){
+			limpar_terminal();
+			printf("VOCE MORREU ! FIM DA JORNADA !\n");
+			break;
+		}
 	}
 
         return 0;

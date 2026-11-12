@@ -6,8 +6,16 @@
 
 
 void limpar_terminal(void) {
-    printf("\033[2J\033[H");
+    printf("\033[3J\033[2J\033[H");
+    fflush(stdout);
 }
+
+void pausar(){
+	char descarte[32];
+	fgets(descarte, sizeof(descarte), stdin);
+
+}
+
 
 int ler_inteiro(void) {
     char linha[32];
@@ -59,8 +67,7 @@ ClasseDoPersonagem menu_escolher_classe(void){
 			printf("CLASSE INVALIDA ! TENTE NOVAMENTE ! \n");
 			printf("press ENTER para continuar");
 
-			char descarte[32];
-			fgets(descarte,sizeof(descarte), stdin);
+			pausar();
 		}
 
 	}while (classe < 1 || classe > 3);
@@ -79,8 +86,7 @@ void ler_nome(char nome[], int tamanho){
 		if(nome[0] == '\0'){
 			printf("NOME INVALIDO, DIGITE NOVAMENTE !\n");
 			printf("press ENTER para continuar");
-			char descarte[32];
-			fgets(descarte, sizeof(descarte), stdin);
+			pauasr();
 
 		}
 
