@@ -67,7 +67,7 @@ void mostrar_personagem(Personagem *p) {
 
     printf("\n");
     printf("  +------------------------------------------------------+\n");
-    printf("  |                  STATUS DO GUERREIRO                 \n");
+    printf("  |                  STATUS DO PERSONAGEM                 \n");
     printf("  +------------------------------------------------------+\n");
 
     printf("  | NOME: %-20s CLASSE: %-14s \n",

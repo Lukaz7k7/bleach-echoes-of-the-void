@@ -6,8 +6,16 @@
 
 #include "menu.h"
 
+#include <stdlib.h>
+
+#include <time.h>
+
+#include "jogo.h"
+
 int main(){
-	char nome[100];
+	srand(time(NULL));
+
+	char nome[32];
 
 	Personagem personagem;
 

@@ -57,12 +57,14 @@ typedef struct {
 typedef struct {
 	int visitada;
 	TipoDeCasa evento;
+	int monstro;  /* indice do monstro na fase, -1 = nenhum */
 } Casa;
 
 typedef struct {
 	Casa casas[TAM_TABULEIRO];
 	int posicao_player;
 	int fase_atual;
+	int missao; /* 1 = missao da fase cumprida */)
 } Tabuleiro;
 
 #endif

@@ -1,0 +1,405 @@
+==> Makefile <==
+bleach-game: src/main.c src/jogo.c src/combate.c src/monstros.c src/personagem.c src/progressao.c src/tabuleiro.c src/menu.c
+	gcc -std=c99 -Wall -Wextra -Iinclude src/main.c src/jogo.c src/combate.c src/monstros.c src/personagem.c src/progressao.c src/tabuleiro.c src/menu.c -o bleach-game -lm
+
+clean: 
+	 rm -f bleach-game
+
+==> include/combate.h <==
+
+==> include/jogo.h <==
+#ifndef JOGO_H
+#define JOGO_H
+
+int rolar_dado(int lados);
+
+#endif
+
+==> include/menu.h <==
+#ifndef MENU_H
+
+#define MENU_H
+
+#include "tipos.h"
+
+void limpar_terminal(void);
+
+ClasseDoPersonagem menu_escolher_classe(void);
+
+int ler_inteiro(void);
+
+void ler_nome(char nome[], int tamanho);
+
+#endif
+
+==> include/monstros.h <==
+
+==> include/personagem.h <==
+#ifndef PERSONAGEM_H
+
+#define PERSONAGEM_H
+
+#include "tipos.h"
+
+void criar_personagem(Personagem *p, ClasseDoPersonagem classe, char nome[]);
+
+void mostrar_personagem(Personagem *p);
+
+const char *nome_da_classe(ClasseDoPersonagem classe);
+
+#endif
+
+==> include/progressao.h <==
+
+==> include/tabuleiro.h <==
+
+==> include/tipos.h <==
+#ifndef TIPOS_H
+
+#define TIPOS_H
+
+#define TAM_TABULEIRO 12
+
+typedef enum{
+	CLASSE_SHINIGAMI,
+	CLASSE_QUINCY,
+	CLASSE_HOLLOW
+} ClasseDoPersonagem;
+
+typedef enum{
+	CASA_VAZIA,
+	CASA_COMBATE,
+	CASA_TESOURO,
+	CASA_CURA,
+	CASA_ARMADILHA,
+	CASA_MISSAO,
+	CASA_CHEFE
+} TipoDeCasa;
+
+typedef enum{
+	ACAO_ATACAR = 1,
+	ACAO_DEFENDER,
+	ACAO_HABILIDADE,
+	ACAO_FUGIR
+} AcaoCombate;
+
+typedef struct {
+	char nome[50];
+	ClasseDoPersonagem classe;
+	int vida_atual;
+	int vida_maxima;
+	int forca;
+	int defesa;
+	int ativa_defesa;
+	int agilidade;
+	int inteligencia;
+	int xp;
+	int nivel;
+	char arma[50];
+	char roupa[50];
+} Personagem;
+
+typedef struct {
+	char nome[50];
+	char descricao[100];
+	int vida_atual;
+	int vida_maxima;
+	int ataque;
+	int defesa;
+	int nivel;
+	int xp_recompensa;
+} Monstro;
+
+typedef struct {
+	int visitada;
+	TipoDeCasa evento;
+} Casa;
+
+typedef struct {
+	Casa casas[TAM_TABULEIRO];
+	int posicao_player;
+	int fase_atual;
+} Tabuleiro;
+
+#endif
+
+
+
+
+==> src/combate.c <==
+
+==> src/jogo.c <==
+#include <stdio.h>
+#include <stdlib.h>
+#include "jogo.h"
+
+int rolar_dado(int lados){
+
+	return rand() % lados + 1;
+
+}
+
+==> src/main.c <==
+#include <stdio.h>
+
+#include "tipos.h"
+
+#include "personagem.h"
+
+#include "menu.h"
+
+#include <stdlib.h>
+
+#include <time.h>
+
+#include "jogo.h"
+
+int main(){
+	srand(time(NULL));
+
+	printf("\n--- TESTE DO DADO D6 ---\n");
+
+	for (int i = 0; i < 10; i++) {
+    		printf("Rolagem %d: %d\n", i + 1, rolar_dado(6));
+	}
+
+	printf("\n--- TESTE DO DADO D20 ---\n");
+
+	for (int i = 0; i < 10; i++) {
+    		printf("Rolagem %d: %d\n", i + 1, rolar_dado(20));
+	}
+
+	char descarte[32];
+	fgets(descarte, sizeof(descarte), stdin);
+
+	char nome[100];
+
+	Personagem personagem;
+
+	ClasseDoPersonagem classe = menu_escolher_classe();
+
+	ler_nome(nome, 32);
+
+	criar_personagem(&personagem,classe , nome);
+
+	mostrar_personagem(&personagem);
+
+        return 0;
+
+}
+
+==> src/menu.c <==
+#include <string.h>
+
+#include "menu.h"
+
+#include <stdio.h>
+
+
+void limpar_terminal(void) {
+    printf("\033[2J\033[H");
+}
+
+int ler_inteiro(void) {
+    char linha[32];
+    int numero;
+
+    if (fgets(linha, sizeof(linha), stdin) == NULL) {
+        return -1;
+    }
+
+    if (sscanf(linha, "%d", &numero) != 1) {
+        return -1;
+    }
+
+    return numero;
+}
+
+ClasseDoPersonagem menu_escolher_classe(void){
+	int classe = 4;
+	do{
+
+		limpar_terminal();
+
+		printf("BLEACH\n");
+		printf("ECHOES OF THE VOID\n");
+
+		printf("\n[1] SHINIGAMI\n");
+		printf("Guerreiros da Soul Society. Classe equilibrada,");
+		printf(" com boa vida, forca e defesa.\n");
+		printf("Vida: 110 | Forca: 11 | Defesa: 9 | Agilidade: 7 | Inteligencia: 7\n");
+
+		printf("\n[2] QUINCY\n");
+		printf("Manipuladores de particulas espirituais.");
+		printf(" Especialistas em velocidade e inteligencia.\n");
+		printf("Vida: 90 | Forca: 7 | Defesa: 6 | Agilidade: 12 | Inteligencia: 10\n");
+
+		printf("\n[3] HOLLOW\n");
+		printf("Criaturas espirituais predadoras. Possuem");
+		printf(" grande forca fisica, mas pouca defesa.\n");
+		printf("Vida: 100 | Forca: 13 | Defesa: 4 | Agilidade: 8 | Inteligencia: 4\n");
+
+		printf("\n");
+		printf("\n");
+		printf("ESCOLHA A CLASSE DO SEU PERSONAGEM : ");
+		classe = ler_inteiro();
+
+		if (classe < 1 || classe > 3){
+			printf("\n");
+			printf("\n");
+			printf("CLASSE INVALIDA ! TENTE NOVAMENTE ! \n");
+			printf("press ENTER para continuar");
+
+			char descarte[32];
+			fgets(descarte,sizeof(descarte), stdin);
+		}
+
+	}while (classe < 1 || classe > 3);
+
+	return classe - 1;
+
+}
+
+void ler_nome(char nome[], int tamanho){
+	do{
+		limpar_terminal();
+		printf("digite o nome do seu personagem : ");
+		fgets(nome , tamanho , stdin);
+		nome[strcspn(nome, "\n")] = '\0';
+
+		if(nome[0] == '\0'){
+			printf("NOME INVALIDO, DIGITE NOVAMENTE !\n");
+			printf("press ENTER para continuar");
+			char descarte[32];
+			fgets(descarte, sizeof(descarte), stdin);
+
+		}
+
+
+	}while(nome[0] == '\0');
+
+
+
+}
+
+==> src/monstros.c <==
+
+==> src/personagem.c <==
+#include <string.h>
+
+#include "personagem.h"
+
+#include <stdio.h>
+
+void criar_personagem(Personagem *p, ClasseDoPersonagem classe, char nome[]) {
+	strcpy(p->nome, nome);
+	p->classe = classe;
+	p->nivel = 1;
+	p->xp = 0;
+	p->ativa_defesa = 0;
+	switch (classe) {
+		case CLASSE_SHINIGAMI:
+			p->vida_atual = 110;
+			p->vida_maxima = 110;
+			p->forca = 11;
+			p->defesa = 9;
+			p->agilidade = 7;
+			p->inteligencia = 7;
+			strcpy(p->arma, "zanpakuto");
+			strcpy(p->roupa, "shihakusho");
+			break;
+
+		case CLASSE_QUINCY:
+			p->vida_atual = 90;
+			p->vida_maxima = 90;
+			p->forca = 7;
+			p->defesa = 6;
+			p->agilidade = 12;
+			p->inteligencia = 10;
+			strcpy(p->arma, "arco espiritual");
+			strcpy(p->roupa, "tunicas quincy");
+			break;
+
+		case CLASSE_HOLLOW:
+			p->vida_atual = 100;
+			p->vida_maxima = 100;
+			p->forca = 13;
+			p->defesa = 4;
+			p->agilidade = 8;
+			p->inteligencia = 4;
+			strcpy(p->arma, "nenhuma");
+			strcpy(p->roupa, "mascara hollow");
+			break;
+	}
+}
+
+const char *nome_da_classe(ClasseDoPersonagem classe){
+	switch (classe){
+		case CLASSE_SHINIGAMI:
+			return "Shinigami";
+
+		case CLASSE_QUINCY:
+			return "Quincy";
+
+		case CLASSE_HOLLOW:
+			return "Hollow";
+	}
+	return "desconhecida";
+
+}
+
+
+
+void mostrar_personagem(Personagem *p) {
+
+    printf("\n");
+    printf("  +------------------------------------------------------+\n");
+    printf("  |                  STATUS DO GUERREIRO                 \n");
+    printf("  +------------------------------------------------------+\n");
+
+    printf("  | NOME: %-20s CLASSE: %-14s \n",
+           p->nome, nome_da_classe(p->classe));
+
+    printf("  +------------------------------------------------------+\n");
+    printf("  | VIDA: %d/%d                                      \n",
+           p->vida_atual, p->vida_maxima);
+
+    printf("  | NIVEL: %-4d XP: %-10d                       \n",
+           p->nivel, p->xp);
+
+    printf("  +------------------------------------------------------+\n");
+    printf("  |                     ATRIBUTOS                        \n");
+
+    printf("  | FORCA: %-4d DEFESA: %-4d AGILIDADE: %-4d      \n",
+           p->forca, p->defesa, p->agilidade);
+
+    printf("  | INTELIGENCIA: %-5d                                \n",
+           p->inteligencia);
+
+    printf("  +------------------------------------------------------+\n");
+    printf("  |                    EQUIPAMENTOS                      \n");
+
+    printf("  | ARMA: %-47s \n", p->arma);
+    printf("  | ROUPA: %-46s \n", p->roupa);
+
+    printf("  +------------------------------------------------------+\n");
+    printf("\n");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==> src/progressao.c <==
+
+==> src/tabuleiro.c <==
