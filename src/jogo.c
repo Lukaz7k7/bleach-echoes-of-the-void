@@ -33,11 +33,12 @@ void executar_evento(Personagem *p, Tabuleiro *t){
 			break;
 		case CASA_CURA:{
 			int quantidade = p->vida_maxima * 25 / 100;
-			curar(p , quantidade);
 
 			if((p->vida_maxima - p->vida_atual) < quantidade){
 				quantidade = p->vida_maxima - p->vida_atual;
 			}
+
+			curar(p , quantidade);
 
 			printf("VOCE ENCONTROU UMA CURA !\n RECUPEROU %d DE VIDA\n", quantidade);
 			t->casas[t->posicao_player].visitada = 1;
