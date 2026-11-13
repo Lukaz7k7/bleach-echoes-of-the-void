@@ -11,8 +11,13 @@
 #include "menu.h"
 
 static void introducao_fase_um(Personagem *p);
-
 static void lore_missao_fase_um(Personagem *p);
+
+static void introducao_fase_dois(Personagem *p);
+static void lore_missao_fase_dois(Personagem *p);
+
+static void introducao_fase_tres(Personagem *p);
+static void lore_missao_fase_tres(Personagem *p);
 
 
 int rolar_dado(int lados){
@@ -52,9 +57,24 @@ void executar_evento(Personagem *p, Tabuleiro *t){
                         break;
 		}
 		case CASA_MISSAO:
-    			if (t->fase_atual == 1) {
-        			lore_missao_fase_um(p);
-    			}
+		    switch (t->fase_atual) {
+
+        		case 1:
+            			lore_missao_fase_um(p);
+            			break;
+
+        		case 2:
+            			lore_missao_fase_dois(p);
+            			break;
+
+        		case 3:
+            			lore_missao_fase_tres(p);
+            			break;
+
+        		default:
+            			printf("MISSÃO DA FASE NÃO ENCONTRADA!\n");
+            			break;
+		    }
 
     			t->missao_concluida = 1;
     			t->casas[t->posicao_player].visitada = 1;
@@ -73,9 +93,20 @@ void executar_evento(Personagem *p, Tabuleiro *t){
 
 ResultadoFase jogar_fase(Personagem *p, Tabuleiro *t){
 
-        if(t->fase_atual == 1){
-		introducao_fase_um(p);
-        }
+	switch (t->fase_atual) {
+
+    		case 1:
+       			introducao_fase_um(p);
+        		break;
+
+    		case 2:
+        		introducao_fase_dois(p);
+        		break;
+
+    		case 3:
+        		introducao_fase_tres(p);
+        		break;
+	}
 
 
 	while((p->vida_atual > 0) && (t->posicao_player < (TAM_TABULEIRO - 1))){
@@ -369,3 +400,540 @@ static void lore_missao_fase_um(Personagem *p) {
     pausar();
 }
 
+
+static void introducao_fase_dois(Personagem *p) {
+
+    limpar_terminal();
+
+    printf("\n");
+    printf("============================================================\n");
+    printf("                 FASE 02 - HUECO MUNDO\n");
+    printf("============================================================\n\n");
+    pausar();
+
+    printf("Apos atravessar a passagem entre os mundos, voce chega\n");
+    printf("a uma vasta extensao de areia branca.\n\n");
+    pausar();
+
+    printf("O ceu escuro de Hueco Mundo parece ainda mais silencioso\n");
+    printf("do que o normal.\n\n");
+    pausar();
+
+    printf("Entretanto, algo esta errado.\n\n");
+    pausar();
+
+    printf("Hollows abandonam seus territorios e se deslocam em\n");
+    printf("direcao a uma regiao distante. Alguns parecem fugir\n");
+    printf("de alguma coisa. Outros demonstram uma agressividade\n");
+    printf("incontrolavel.\n\n");
+    pausar();
+
+    printf("Uma voz conhecida chama sua atencao.\n\n");
+    pausar();
+
+    printf("NELLIEL TU ODELSCHWANCK:\n\n");
+    pausar();
+
+    printf("\"Entao voce e a pessoa que Urahara mencionou.\"\n\n");
+    pausar();
+
+    printf("\"Tenho observado o comportamento dos Hollows ha algum\n");
+    printf("tempo. Algo esta forcando essas criaturas a abandonar\n");
+    printf("seus territorios.\"\n\n");
+    pausar();
+
+    printf("\"A energia que sentimos vem de uma regiao mais distante.\n");
+    printf("Mas nao consigo identificar sua verdadeira origem.\"\n\n");
+    pausar();
+
+    printf("Antes que a conversa continue, uma forte pressao espiritual\n");
+    printf("surge nas proximidades.\n\n");
+    pausar();
+
+    printf("GRIMMJOW JAEGERJAQUE:\n\n");
+    pausar();
+
+    printf("\"Tch... Entao voces tambem estao atras dessa coisa?\"\n\n");
+    pausar();
+
+    printf("\"Nao estou interessado em trabalhar em equipe. Mas tem\n");
+    printf("algo naquela direcao que esta me incomodando.\"\n\n");
+    pausar();
+
+    printf("\"Seja la o que for, vou acabar com isso.\"\n\n");
+    pausar();
+
+    printf("Grimmjow segue em direcao a concentracao de energia,\n");
+    printf("sem esperar pelos demais.\n\n");
+    pausar();
+
+    printf("NELLIEL:\n\n");
+    pausar();
+
+    printf("\"Ele sempre foi assim. Mas talvez seja melhor mantermos\n");
+    printf("os olhos abertos. Nao sabemos o que vamos encontrar.\"\n\n");
+    pausar();
+
+    switch (p->classe) {
+
+        case CLASSE_SHINIGAMI:
+            printf("Sua Zanpakuto reage novamente. A vibracao parece\n");
+            printf("mais intensa do que aquela sentida em Karakura.\n");
+            break;
+
+        case CLASSE_QUINCY:
+            printf("O Reishi ao seu redor se movimenta de maneira irregular.\n");
+            printf("A concentracao de energia parece alterar todo o ambiente.\n");
+            break;
+
+        case CLASSE_HOLLOW:
+            printf("Seu instinto reconhece algo naquela direcao.\n");
+            printf("Uma presenca poderosa parece chamar todos os Hollows.\n");
+            break;
+    }
+
+    printf("\n");
+    pausar();
+
+    printf("============================================================\n");
+    printf("                     NOVA INVESTIGACAO\n");
+    printf("============================================================\n\n");
+    pausar();
+
+    printf("INVESTIGUE A CONCENTRACAO DE ENERGIA EM HUECO MUNDO.\n\n");
+
+    printf("Descubra por que os Hollows estao abandonando seus\n");
+    printf("territorios e encontre a origem da energia desconhecida.\n\n");
+    pausar();
+
+    printf("NELLIEL E GRIMMJOW SEGUIRAO OS RASTROS POR CAMINHOS\n");
+    printf("DIFERENTES. ENCONTRE-SE COM ELES DURANTE A INVESTIGACAO.\n\n");
+    pausar();
+
+    printf("============================================================\n");
+    printf("              A INVESTIGACAO CONTINUA...\n");
+    printf("============================================================\n");
+    pausar();
+}
+
+
+
+static void lore_missao_fase_dois(Personagem *p) {
+
+    limpar_terminal();
+
+    printf("\n");
+    printf("============================================================\n");
+    printf("              HUECO MUNDO - PONTO DE CONVERGENCIA\n");
+    printf("============================================================\n\n");
+    pausar();
+
+    printf("Depois de seguir os rastros, voce chega a uma regiao\n");
+    printf("onde a energia espiritual parece estar concentrada.\n\n");
+    pausar();
+
+    printf("A areia ao redor apresenta marcas de movimentacao.\n");
+    printf("Diversos Hollows passaram por aquele lugar.\n\n");
+    pausar();
+
+    printf("NELLIEL:\n\n");
+    pausar();
+
+    printf("\"E aqui... Todos os rastros parecem terminar neste ponto.\"\n\n");
+    pausar();
+
+    printf("\"Mas existe algo estranho. Essa energia nao parece\n");
+    printf("pertencer a nenhum Hollow que conhecemos.\"\n\n");
+    pausar();
+
+    printf("Dondochakka e Pesche se aproximam, trazendo informacoes\n");
+    printf("que conseguiram reunir durante a investigacao.\n\n");
+    pausar();
+
+    printf("PESCHE:\n\n");
+    pausar();
+
+    printf("\"Encontramos marcas semelhantes em outras regioes!\n");
+    printf("Todas apontam para uma mesma direcao!\"\n\n");
+    pausar();
+
+    printf("DONDOCCHAKKA:\n\n");
+    pausar();
+
+    printf("\"E nao sao apenas os Hollows comuns que estao seguindo\n");
+    printf("esse caminho. Existe algo muito maior acontecendo!\"\n\n");
+    pausar();
+
+    printf("Uma forte pressao espiritual interrompe a conversa.\n\n");
+    pausar();
+
+    printf("GRIMMJOW:\n\n");
+    pausar();
+
+    printf("\"Hmph. Finalmente entenderam?\"\n\n");
+    pausar();
+
+    printf("\"Aquela coisa nao esta simplesmente atraindo os Hollows.\n");
+    printf("Esta usando a energia deles para alguma finalidade.\"\n\n");
+    pausar();
+
+    printf("Voce observa a concentracao espiritual mais uma vez.\n");
+    printf("Por um instante, consegue perceber que ela nao termina\n");
+    printf("naquele local.\n\n");
+    pausar();
+
+    printf("Existe um caminho levando a uma regiao ainda mais distante.\n\n");
+    pausar();
+
+    printf("NELLIEL:\n\n");
+    pausar();
+
+    printf("\"Conheco essa direcao...\"\n\n");
+    pausar();
+
+    printf("\"Ela leva ao Vale dos Gritos. Um lugar instavel, formado\n");
+    printf("por fragmentos de espacos que foram separados dos mundos.\"\n\n");
+    pausar();
+
+    printf("\"Se a energia esta vindo de la, talvez encontremos\n");
+    printf("a origem de tudo isso.\"\n\n");
+    pausar();
+
+    switch (p->classe) {
+
+        case CLASSE_SHINIGAMI:
+            printf("Sua Zanpakuto permanece vibrando. Parece reagir\n");
+            printf("a algo que existe alem daquela regiao.\n");
+            break;
+
+        case CLASSE_QUINCY:
+            printf("Voce percebe que o fluxo de Reishi segue em direcao\n");
+            printf("ao Vale dos Gritos, como se estivesse sendo conduzido.\n");
+            break;
+
+        case CLASSE_HOLLOW:
+            printf("Seu instinto Hollow identifica uma presenca distante.\n");
+            printf("Ela parece muito mais antiga e poderosa que os Hollows\n");
+            printf("que encontrou ate agora.\n");
+            break;
+    }
+
+    printf("\n");
+    pausar();
+
+    printf("============================================================\n");
+    printf("                    MISSAO CONCLUIDA!\n");
+    printf("============================================================\n\n");
+    pausar();
+
+    printf("Voce descobriu que a energia esta sendo direcionada\n");
+    printf("para o Vale dos Gritos.\n\n");
+    pausar();
+
+    printf("A origem da anomalia continua desconhecida, mas agora\n");
+    printf("existe um caminho para encontrar respostas.\n\n");
+    pausar();
+
+    printf("============================================================\n");
+    printf("                  FIM DA FASE 02\n");
+    printf("============================================================\n\n");
+    pausar();
+}
+
+
+static void introducao_fase_tres(Personagem *p) {
+
+    limpar_terminal();
+
+    printf("\n");
+    printf("============================================================\n");
+    printf("                 FASE 03 - VALE DOS GRITOS\n");
+    printf("============================================================\n\n");
+    pausar();
+
+    printf("A passagem leva voce a um lugar completamente diferente.\n\n");
+    pausar();
+
+    printf("O Vale dos Gritos se estende diante dos seus olhos.\n");
+    printf("Fragmentos de terrenos, estruturas e ruinas parecem\n");
+    printf("existir fora de qualquer ordem natural.\n\n");
+    pausar();
+
+    printf("O ambiente parece instavel. O proprio espaco ao redor\n");
+    printf("sofre pequenas distorcoes.\n\n");
+    pausar();
+
+    printf("A energia espiritual e muito mais intensa do que tudo\n");
+    printf("que voce encontrou nas outras regioes.\n\n");
+    pausar();
+
+    printf("NELLIEL:\n\n");
+    pausar();
+
+    printf("\"Este lugar guarda fragmentos de diferentes regioes.\n");
+    printf("Poucos conhecem sua verdadeira origem.\"\n\n");
+    pausar();
+
+    printf("\"Mas existe algo aqui... Algo que parece ter despertado\n");
+    printf("depois de permanecer adormecido por muito tempo.\"\n\n");
+    pausar();
+
+    printf("GRIMMJOW:\n\n");
+    pausar();
+
+    printf("\"Tch... Nao preciso que me expliquem o perigo.\"\n\n");
+    pausar();
+
+    printf("\"Essa pressao espiritual e diferente de tudo que ja senti.\"\n\n");
+    pausar();
+
+    printf("Voce avanca alguns passos. De repente, a energia ao redor\n");
+    printf("parece reagir diretamente a sua presenca.\n\n");
+    pausar();
+
+    switch (p->classe) {
+
+        case CLASSE_SHINIGAMI:
+            printf("Sua Zanpakuto comeca a vibrar de maneira descontrolada.\n");
+            printf("Uma sensacao familiar surge, como se sua espada\n");
+            printf("reconhecesse aquela energia.\n");
+            break;
+
+        case CLASSE_QUINCY:
+            printf("O Reishi ao seu redor converge em sua direcao.\n");
+            printf("Por alguns instantes, voce percebe uma frequencia\n");
+            printf("semelhante a que sentiu em Karakura.\n");
+            break;
+
+        case CLASSE_HOLLOW:
+            printf("Seu instinto Hollow reage intensamente.\n");
+            printf("A presenca naquele lugar parece reconhecer voce,\n");
+            printf("mas voce continua no controle de sua consciencia.\n");
+            break;
+    }
+
+    printf("\n");
+    pausar();
+
+    printf("Uma voz surge em sua mente.\n\n");
+    pausar();
+
+    printf("\"Finalmente... voce chegou ate aqui.\"\n\n");
+    pausar();
+
+    printf("A voz desaparece. Mas a sensacao de estar sendo\n");
+    printf("observado permanece.\n\n");
+    pausar();
+
+    printf("NELLIEL:\n\n");
+    pausar();
+
+    printf("\"Voce sentiu isso tambem, nao foi?\"\n\n");
+    pausar();
+
+    printf("\"Precisamos descobrir o que existe nestas ruinas.\n");
+    printf("Acredito que encontraremos nossas respostas aqui.\"\n\n");
+    pausar();
+
+    printf("============================================================\n");
+    printf("                  ULTIMA INVESTIGACAO\n");
+    printf("============================================================\n\n");
+    pausar();
+
+    printf("INVESTIGUE AS RUINAS ANTIGAS DO VALE DOS GRITOS.\n\n");
+
+    printf("Descubra a origem da energia desconhecida e a identidade\n");
+    printf("da presenca que vem interferindo nos tres mundos.\n\n");
+    pausar();
+
+    printf("Algo neste lugar parece estar conectado a voce.\n\n");
+    pausar();
+
+    printf("============================================================\n");
+    printf("              A VERDADE ESTA PROXIMA...\n");
+    printf("============================================================\n");
+    pausar();
+}
+
+
+static void lore_missao_fase_tres(Personagem *p) {
+
+    limpar_terminal();
+
+    printf("\n");
+    printf("============================================================\n");
+    printf("             VALE DOS GRITOS - RUINAS ANTIGAS\n");
+    printf("============================================================\n\n");
+    pausar();
+
+    printf("Ao explorar as ruinas, voce encontra uma estrutura antiga\n");
+    printf("que parece ter permanecido escondida por seculos.\n\n");
+    pausar();
+
+    printf("Simbolos desconhecidos cobrem as paredes. A energia\n");
+    printf("espiritual naquele local e extremamente intensa.\n\n");
+    pausar();
+
+    printf("NELLIEL:\n\n");
+    pausar();
+
+    printf("\"Essas inscricoes... Nunca vi nada parecido.\"\n\n");
+    pausar();
+
+    printf("\"Parece que este lugar ja existia muito antes das\n");
+    printf("estruturas que conhecemos atualmente.\"\n\n");
+    pausar();
+
+    printf("Seu comunicador emite um sinal. A voz de Urahara surge,\n");
+    printf("com dificuldade para atravessar a distorcao espiritual.\n\n");
+    pausar();
+
+    printf("KISUKE URAHARA:\n\n");
+    pausar();
+
+    printf("\"Consegui analisar parte dos registros enviados por voce.\"\n\n");
+    pausar();
+
+    printf("\"O que encontramos pode ser muito mais antigo do que\n");
+    printf("imaginavamos. As inscricoes fazem referencia a uma epoca\n");
+    printf("em que os tres mundos ainda formavam uma unica existencia.\"\n\n");
+    pausar();
+
+    printf("\"Quando os mundos foram separados, algo foi dividido\n");
+    printf("junto com aquela antiga realidade.\"\n\n");
+    pausar();
+
+    printf("\"Se minha interpretacao estiver correta, parte desses\n");
+    printf("fragmentos foi lancada na Garganta. Outros acabaram\n");
+    printf("presos neste vale.\"\n\n");
+    pausar();
+
+    printf("De repente, as ruinas comecam a vibrar.\n");
+    printf("A energia espiritual se concentra no centro da estrutura.\n\n");
+    pausar();
+
+    printf("Uma voz profunda ecoa pelo ambiente.\n\n");
+    pausar();
+
+    printf("\"Chega de procurar. Finalmente posso revelar minha identidade.\"\n\n");
+    pausar();
+
+    printf("APARICION:\n\n");
+    pausar();
+
+    printf("\"Antes da separacao dos mundos, nos eramos uma unica existencia.\"\n\n");
+    pausar();
+
+    printf("\"Quando essa realidade foi dividida, eu tambem fui fragmentado.\"\n\n");
+    pausar();
+
+    printf("\"Durante seculos, permaneci adormecido, espalhado entre\n");
+    printf("os fragmentos que foram esquecidos neste vazio.\"\n\n");
+    pausar();
+
+    printf("\"Mas agora estou despertando. E os tres mundos sentirao\n");
+    printf("novamente a minha presenca.\"\n\n");
+    pausar();
+
+    printf("A energia ao redor comeca a se movimentar em direcao\n");
+    printf("aquela presenca.\n\n");
+    pausar();
+
+    printf("APARICION:\n\n");
+    pausar();
+
+    printf("\"Os Hollows, as almas e ate mesmo os Shinigamis...\"\n\n");
+    pausar();
+
+    printf("\"Todos podem servir como fonte para recuperar aquilo\n");
+    printf("que foi retirado de mim.\"\n\n");
+    pausar();
+
+    printf("\"Preciso recuperar minha existencia. E, quando estiver\n");
+    printf("completo, os tres mundos finalmente deixarao de existir.\"\n\n");
+    pausar();
+
+    printf("NELLIEL:\n\n");
+    pausar();
+
+    printf("\"Voce pretende destruir todos os mundos?!\"\n\n");
+    pausar();
+
+    printf("APARICION:\n\n");
+    pausar();
+
+    printf("\"Observe a existencia de voces.\"\n\n");
+    pausar();
+
+    printf("\"As almas continuam presas em um ciclo de sofrimento.\n");
+    printf("A vida, a morte e a destruicao se repetem sem fim.\"\n\n");
+    pausar();
+
+    printf("\"A separacao dos mundos nunca trouxe equilibrio.\n");
+    printf("Apenas prolongou esse sofrimento.\"\n\n");
+    pausar();
+
+    printf("\"Quando tudo terminar, nao havera mais ciclos.\n");
+    printf("Nao havera mais dor.\"\n\n");
+    pausar();
+
+    printf("A presenca volta sua atencao diretamente para voce.\n\n");
+    pausar();
+
+    printf("APARICION:\n\n");
+    pausar();
+
+    printf("\"Mas voce... Existe algo diferente em voce.\"\n\n");
+    pausar();
+
+    printf("\"%s... Desde nosso primeiro contato, sua consciencia\n", p->nome);
+    printf("resistiu a minha influencia. Isso nao foi algo comum.\"\n\n");
+
+    printf("\"Sua existencia possui uma ligacao com os fragmentos\n");
+    printf("que foram espalhados quando os mundos se separaram.\"\n\n");
+    pausar();
+
+    printf("\"Voce poderia ser o recipiente que me permitiria\n");
+    printf("recuperar minha forma completa.\"\n\n");
+    pausar();
+
+    printf("\"Junte-se a mim. Podemos acabar com esse ciclo de uma vez.\"\n\n");
+    pausar();
+
+    printf("Por alguns instantes, o ambiente permanece em silencio.\n");
+    printf("Agora voce compreende a origem das anomalias.\n\n");
+    pausar();
+
+    printf("A energia que atraiu os Hollows, corrompeu os Shinigamis\n");
+    printf("e alterou o fluxo das almas tinha uma unica origem.\n\n");
+    pausar();
+
+    printf("APARICION deseja recuperar sua forma completa utilizando\n");
+    printf("a energia espiritual dos tres mundos.\n\n");
+    pausar();
+
+    printf("Mas voce nao pretende permitir que isso aconteca.\n\n");
+    pausar();
+
+    printf("============================================================\n");
+    printf("                    MISSAO CONCLUIDA!\n");
+    printf("============================================================\n\n");
+    pausar();
+
+    printf("A identidade e os objetivos de Aparicion foram revelados.\n\n");
+    pausar();
+
+    printf("Agora resta impedir que a entidade recupere sua forma\n");
+    printf("completa e destrua os tres mundos.\n\n");
+    pausar();
+
+    printf("============================================================\n");
+    printf("                 O CONFRONTO FINAL SE APROXIMA\n");
+    printf("============================================================\n\n");
+    pausar();
+
+    printf("Aparicion aguarda adiante.\n");
+    printf("Sua jornada chegara ao fim neste lugar.\n\n");
+    pausar();
+
+}
