@@ -31,36 +31,15 @@ int main(){
 
 	montar_tabuleiro(&tab , 1);
 
-	for(int i = 0; i < 8; i++){
+	ResultadoFase fase_1 = jogar_fase(&personagem,&tab);
 
+	if(fase_1 == RESULTADO_FASE_DERROTA){
 		limpar_terminal();
-
-		mostrar_personagem(&personagem);
-		mostrar_tabuleiro(&tab);
-
-		printf("press ENTER para rolar o dado\n");
-
-		pausar();
-
-		int passos = rolar_dado(DADO_MOVIMENTACAO);
-
-		mover_personagem(&tab, passos);
-
-		limpar_terminal();
-
-		printf("VOCE TIROU --> %d <-- NO DADO\n", passos);
-
-		executar_evento(&personagem, &tab);
-
-                printf("\nPressione ENTER para continuar...\n");
-                pausar();
-
-		if(personagem.vida_atual <= 0){
-			limpar_terminal();
-			printf("VOCE MORREU ! FIM DA JORNADA !\n");
-			break;
-		}
+		printf("GAMER OUVER\nFIM DA JORNADA,VOCE FOI DERROTADO");
+		return 0;
 	}
+
+	montar_tabuleiro(&tab,2);
 
         return 0;
 

@@ -5,7 +5,11 @@
 
 #include "personagem.h"
 
+#include "tabuleiro.h"
+
 #include "menu.h"
+
+static void introducao_fase_um(Personagem *p);
 
 int rolar_dado(int lados){
 
@@ -61,6 +65,46 @@ void executar_evento(Personagem *p, Tabuleiro *t){
 
 
 ResultadoFase jogar_fase(Personagem *p, Tabuleiro *t){
+
+        if(t->fase_atual == 1){
+		introducao_fase_um(p);
+        }
+
+
+	while((p->vida_atual > 0) && (t->posicao_player < (TAM_TABULEIRO - 1))){
+
+		limpar_terminal();
+
+		mostrar_personagem(p);
+		mostrar_tabuleiro(t);
+
+		printf("press ENTER para rolar o dado\n");
+
+		pausar();
+
+		int passos = rolar_dado(DADO_MOVIMENTACAO);
+
+		mover_personagem(t,passos);
+
+		limpar_terminal();
+
+		printf("VOCE TIROU --> %d <-- NO DADO\n", passos);
+
+		executar_evento(p, t);
+
+		printf("\nPressione ENTER para continuar...\n");
+                pausar();
+
+	}
+
+	if(p->vida_atual <= 0){
+		return RESULTADO_FASE_DERROTA;
+	}
+
+	else{
+		return RESULTADO_FASE_CONCLUIDA;
+	}
+
 
 }
 

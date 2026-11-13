@@ -8,6 +8,8 @@ void limpar_terminal(void);
 
 void pausar(void);
 
+void esperar(double segundos);
+
 ClasseDoPersonagem menu_escolher_classe(void);
 
 int ler_inteiro(void);

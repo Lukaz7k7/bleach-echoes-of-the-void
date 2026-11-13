@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 
+#include <time.h>
 
 void limpar_terminal(void) {
     printf("\033[3J\033[2J\033[H");
@@ -14,6 +15,12 @@ void pausar(){
 	char descarte[32];
 	fgets(descarte, sizeof(descarte), stdin);
 
+}
+
+void esperar(double segundos){
+    clock_t fim = clock() + (clock_t)(segundos * CLOCKS_PER_SEC);
+    fflush(stdout);
+    while (clock() < fim) { }
 }
 
 
