@@ -8,6 +8,8 @@
 
 #define DADO_MOVIMENTACAO 6
 
+#define DADO_COMBATE 20
+
 #define XP_TESOURO 50
 
 typedef enum{
@@ -22,9 +24,9 @@ typedef enum{
 } ResultadoFase;
 
 typedef enum{
-	VITORIA,
-	DERROTA,
-	FUGA
+	RESULTADO_COMBATE_VITORIA,
+	RESULTADO_COMBATE_DERROTA,
+	RESULTADO_COMBATE_FUGA
 } ResultadoCombate;
 
 typedef enum{
@@ -69,7 +71,7 @@ typedef struct {
 	int defesa;
 	int nivel;
 	int xp_recompensa;
-	int chefe;
+	int chefe; /* se for chefe = 1 */
 } Monstro;
 
 typedef struct {

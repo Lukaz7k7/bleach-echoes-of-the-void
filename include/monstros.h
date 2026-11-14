@@ -5,4 +5,6 @@
 
 void criar_monstro(Monstro *m, int fase, int indice);
 
+void dano_monstro(Monstro *m, int dano);
+
 #endif
