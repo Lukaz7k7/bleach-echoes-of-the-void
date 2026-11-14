@@ -55,7 +55,7 @@ void criar_monstro(Monstro *m, int fase, int indice) {
     const int ataques_base[4] = {6, 8, 10, 11};
     const int defesas_base[4] = {3, 4, 5, 7};
 
-    const double multiplicadores[3] = {1.0, 1.4, 1.8};
+    const double multiplicadores[3] = {1.0, 1.2, 1.4};
 
     const int xp_base[4] = {25, 35, 50, 100};
 
@@ -74,4 +74,13 @@ void criar_monstro(Monstro *m, int fase, int indice) {
     m->vida_atual = m->vida_maxima;
     m->nivel = fase;
     m->xp_recompensa = xp_base[indice] * fase;
+
+    if(indice == 3){
+	m->chefe = 1;
+    }
+
+    else {
+	m->chefe = 0;
+    }
+
 }

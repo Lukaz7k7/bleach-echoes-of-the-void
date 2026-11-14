@@ -22,6 +22,12 @@ typedef enum{
 } ResultadoFase;
 
 typedef enum{
+	VITORIA,
+	DERROTA,
+	FUGA
+} ResultadoCombate;
+
+typedef enum{
 	CASA_VAZIA,
 	CASA_COMBATE,
 	CASA_TESOURO,
@@ -63,6 +69,7 @@ typedef struct {
 	int defesa;
 	int nivel;
 	int xp_recompensa;
+	int chefe;
 } Monstro;
 
 typedef struct {

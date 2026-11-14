@@ -36,7 +36,7 @@ int main(){
 
 		if(fase == RESULTADO_FASE_DERROTA){
 			limpar_terminal();
-			printf("GAMER OVER\nFIM DA JORNADA,VOCE FOI DERROTADO");
+			printf("GAME OVER\nFIM DA JORNADA,VOCE FOI DERROTADO");
 			return 0;
 		}
 	}
