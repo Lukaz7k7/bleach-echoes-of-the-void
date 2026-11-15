@@ -5,12 +5,15 @@
 
 #include <stdio.h>
 
+#include <progressao.h>
+
 void criar_personagem(Personagem *p, ClasseDoPersonagem classe, char nome[]) {
 	strcpy(p->nome, nome);
 	p->classe = classe;
 	p->nivel = 1;
 	p->xp = 0;
 	p->ativa_defesa = 0;
+	p->nivel_habilidade = 1;
 	switch (classe) {
 		case CLASSE_SHINIGAMI:
 			p->vida_atual = 110;
@@ -78,8 +81,8 @@ void mostrar_personagem(Personagem *p) {
     printf("  | VIDA: %d/%d                                      \n",
            p->vida_atual, p->vida_maxima);
 
-    printf("  | NIVEL: %-4d XP: %-10d                       \n",
-           p->nivel, p->xp);
+    printf("  | NIVEL: %-4d XP: %d/%d                       \n",
+           p->nivel, p->xp, xp_necessario(p->nivel));
 
     printf("  +------------------------------------------------------+\n");
     printf("  |                     ATRIBUTOS                        \n");
@@ -95,6 +98,8 @@ void mostrar_personagem(Personagem *p) {
 
     printf("  | ARMA: %-47s \n", p->arma);
     printf("  | ROUPA: %-46s \n", p->roupa);
+	printf("  | HABILIDADE: %s (nivel %d)\n",
+           nome_da_habilidade(p->classe), p->nivel_habilidade);
 
     printf("  +------------------------------------------------------+\n");
     printf("\n");
@@ -127,10 +132,6 @@ void curar(Personagem *p, int cura){
 	else{
 		p->vida_atual = p->vida_atual + cura;
 	}
-}
-
-void ganhar_xp(Personagem *p, int xp){
-	p->xp = p->xp + xp;
 }
 
 

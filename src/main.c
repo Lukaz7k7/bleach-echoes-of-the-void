@@ -29,19 +29,40 @@ int main(){
 
 	Tabuleiro tab;
 
-	for(int i = 1; i < 4; i++){
-		montar_tabuleiro(&tab , i);
+	for (int i = 1; i < 4; i++) {
 
-		ResultadoFase fase = jogar_fase(&personagem,&tab);
+    
+    int vida_anterior = personagem.vida_atual;
 
-		if(fase == RESULTADO_FASE_DERROTA){
-			limpar_terminal();
-			printf("GAME OVER\nFIM DA JORNADA,VOCE FOI DERROTADO");
-			return 0;
-		}
-	}
+    curar(&personagem, personagem.vida_maxima);
 
-        return 0;
+    int vida_recuperada = personagem.vida_atual - vida_anterior;
 
+    if (i > 1) {
+        limpar_terminal();
+
+        printf("\n");
+        printf("============================================================\n");
+        printf("                   NOVA FASE!\n");
+        printf("============================================================\n\n");
+
+        printf("Voce se preparou para continuar sua jornada.\n");
+        printf("Vida recuperada: %d HP\n", vida_recuperada);
+        printf("Vida atual: %d/%d HP\n",
+               personagem.vida_atual, personagem.vida_maxima);
+
+        printf("\nPressione ENTER para continuar...");
+        pausar();
+    }
+
+    montar_tabuleiro(&tab, i);
+
+    ResultadoFase fase = jogar_fase(&personagem, &tab);
+
+    if (fase == RESULTADO_FASE_DERROTA) {
+        limpar_terminal();
+        printf("GAME OVER\nFIM DA JORNADA, VOCE FOI DERROTADO");
+    }
+	return 0;
 }
-
+}

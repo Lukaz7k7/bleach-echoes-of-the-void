@@ -39,49 +39,100 @@ int ler_inteiro(void) {
     return numero;
 }
 
-ClasseDoPersonagem menu_escolher_classe(void){
-	int classe = 4;
-	do{
 
-		limpar_terminal();
+ClasseDoPersonagem menu_escolher_classe(void) {
 
-		printf("BLEACH\n");
-		printf("ECHOES OF THE VOID\n");
+    int classe = 4;
 
-		printf("\n[1] SHINIGAMI\n");
-		printf("Guerreiros da Soul Society. Classe equilibrada,");
-		printf(" com boa vida, forca e defesa.\n");
-		printf("Vida: 110 | Forca: 11 | Defesa: 9 | Agilidade: 7 | Inteligencia: 7\n");
+    do {
 
-		printf("\n[2] QUINCY\n");
-		printf("Manipuladores de particulas espirituais.");
-		printf(" Especialistas em velocidade e inteligencia.\n");
-		printf("Vida: 90 | Forca: 7 | Defesa: 6 | Agilidade: 12 | Inteligencia: 10\n");
+        limpar_terminal();
 
-		printf("\n[3] HOLLOW\n");
-		printf("Criaturas espirituais predadoras. Possuem");
-		printf(" grande forca fisica, mas pouca defesa.\n");
-		printf("Vida: 100 | Forca: 13 | Defesa: 4 | Agilidade: 8 | Inteligencia: 4\n");
+        printf("\n");
+        printf("============================================================\n");
+        printf("                 BLEACH: ECHOES OF THE VOID\n");
+        printf("                    ESCOLHA SUA CLASSE\n");
+        printf("============================================================\n");
 
-		printf("\n");
-		printf("\n");
-		printf("ESCOLHA A CLASSE DO SEU PERSONAGEM : ");
-		classe = ler_inteiro();
+        /* SHINIGAMI */
+        printf("\n");
+        printf("\033[1;36m");
+        printf("[1] SHINIGAMI\n");
+        printf("\033[0m");
 
-		if (classe < 1 || classe > 3){
-			printf("\n");
-			printf("\n");
-			printf("CLASSE INVALIDA ! TENTE NOVAMENTE ! \n");
-			printf("press ENTER para continuar");
+        printf("Guerreiros da Soul Society, especialistas no uso de\n");
+        printf("suas Zanpakutos e tecnicas de combate.\n\n");
 
-			pausar();
-		}
+        printf("ATRIBUTOS INICIAIS:\n");
+        printf("Vida: 110 | Forca: 11 | Defesa: 9\n");
+        printf("Agilidade: 7 | Inteligencia: 7\n");
+        printf("Atributo principal: FORCA\n\n");
 
-	}while (classe < 1 || classe > 3);
+        printf("HABILIDADE ESPECIAL: BANKAI\n");
+        printf("Libera o poder da Zanpakuto e causa DANO DOBRADO.\n");
+        printf("Ideal para jogadores que priorizam forca e ataques\n");
+        printf("de alto impacto.\n");
 
-	return classe - 1;
+        printf("\n------------------------------------------------------------\n");
 
+        /* QUINCY */
+        printf("\n");
+        printf("\033[1;34m");
+        printf("[2] QUINCY\n");
+        printf("\033[0m");
+
+        printf("Manipuladores de Reishi, especialistas em velocidade,\n");
+        printf("precisao e ataques com armas espirituais.\n\n");
+
+        printf("ATRIBUTOS INICIAIS:\n");
+        printf("Vida: 90 | Forca: 7 | Defesa: 6\n");
+        printf("Agilidade: 12 | Inteligencia: 10\n");
+        printf("Atributo principal: AGILIDADE\n\n");
+
+        printf("HABILIDADE ESPECIAL: HEILIG PFEIL\n");
+        printf("Dispara uma flecha espiritual com precisao aprimorada.\n");
+        printf("Rola dois D20 e utiliza o maior resultado.\n");
+        printf("Ideal para jogadores que priorizam velocidade.\n");
+
+        printf("\n------------------------------------------------------------\n");
+
+        /* HOLLOW */
+        printf("\n");
+        printf("\033[1;31m");
+        printf("[3] HOLLOW\n");
+        printf("\033[0m");
+
+        printf("Criaturas espirituais predadoras, movidas por instintos\n");
+        printf("e grande poder ofensivo.\n\n");
+
+        printf("ATRIBUTOS INICIAIS:\n");
+        printf("Vida: 100 | Forca: 13 | Defesa: 4\n");
+        printf("Agilidade: 8 | Inteligencia: 4\n");
+        printf("Atributo principal: FORCA\n\n");
+
+        printf("HABILIDADE ESPECIAL: CERO\n");
+        printf("Concentra energia espiritual e dispara uma poderosa\n");
+        printf("rajada que IGNORA A DEFESA DO INIMIGO.\n");
+        printf("Ideal para jogadores que priorizam forca bruta.\n");
+
+        printf("\n============================================================\n");
+        printf("ESCOLHA A CLASSE DO SEU PERSONAGEM: ");
+
+        classe = ler_inteiro();
+
+        if (classe < 1 || classe > 3) {
+
+            printf("\nCLASSE INVALIDA! TENTE NOVAMENTE!\n");
+            printf("Pressione ENTER para continuar...");
+
+            pausar();
+        }
+
+    } while (classe < 1 || classe > 3);
+
+    return classe - 1;
 }
+
 
 void ler_nome(char nome[], int tamanho){
 	do{

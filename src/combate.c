@@ -1,9 +1,16 @@
 #include <stdio.h>
+
 #include "monstros.h"
+
 #include "combate.h"
+
 #include "jogo.h"
+
 #include "personagem.h"
+
 #include "menu.h"
+
+#include "progressao.h"
 
 /* Imprime uma barra visual de vida */
 static void mostrar_barra_vida(
@@ -141,9 +148,10 @@ void mostrar_turno_jogador(
     printf("[2] DEFENDER\n");
 
     if (habilidade_usada == 0) {
-        printf("[3] HABILIDADE ESPECIAL [DISPONIVEL]\n");
+        printf("[3] %s (nivel %d) [DISPONIVEL]\n",
+               nome_da_habilidade(p->classe), p->nivel_habilidade);
     } else {
-        printf("[3] HABILIDADE ESPECIAL [UTILIZADA]\n");
+        printf("[3] %s [UTILIZADA]\n", nome_da_habilidade(p->classe));
     }
 
     printf("[4] FUGIR\n");
@@ -232,6 +240,55 @@ static int turno_monstro(Monstro *m, Personagem *p) {
     return dano;
 }
 
+static void usar_habilidade(Personagem *p, Monstro *m) {
+
+    int dado = rolar_dado(DADO_COMBATE);
+    int dado2 = 0;
+    int dano = 0;
+
+    limpar_terminal();
+    printf("\nVOCE USOU %s (nivel %d)!\n\n",
+           nome_da_habilidade(p->classe), p->nivel_habilidade);
+
+    switch (p->classe) {
+
+        case CLASSE_SHINIGAMI:
+            /* dano dobrado */
+            printf("Dado: %d\n", dado);
+            dano = calcula_dano(atributo_principal(p) + dado, m->defesa) * 2;
+            printf("Efeito: o golpe causa DANO DOBRADO!\n");
+            break;
+
+        case CLASSE_QUINCY:
+            /* rola dois dados e fica com o maior */
+            dado2 = rolar_dado(DADO_COMBATE);
+            printf("Dados: %d e %d (vale o maior)\n", dado, dado2);
+            if (dado2 > dado) {
+                dado = dado2;
+            }
+            dano = calcula_dano(atributo_principal(p) + dado, m->defesa);
+            printf("Efeito: a flecha escolhe o MELHOR de dois dados!\n");
+            break;
+
+        case CLASSE_HOLLOW:
+            /* ignora a defesa do inimigo */
+            printf("Dado: %d\n", dado);
+            dano = calcula_dano(atributo_principal(p) + dado, 0);
+            printf("Efeito: o Cero IGNORA a defesa do inimigo!\n");
+            break;
+    }
+
+    if (bonus_habilidade(p) > 0) {
+        printf("Bonus do nivel da habilidade: +%d de dano\n", bonus_habilidade(p));
+    }
+    dano = dano + bonus_habilidade(p);
+
+    dano_monstro(m, dano);
+
+    printf("\nDano causado: %d\n", dano);
+    printf("Vida do inimigo: %d/%d\n", m->vida_atual, m->vida_maxima);
+}
+
 static int turno_player(Personagem *p, Monstro *m, int *habilidade_usada) {
 
     int opcao;
@@ -304,21 +361,8 @@ static int turno_player(Personagem *p, Monstro *m, int *habilidade_usada) {
 
             *habilidade_usada = 1;
 
-            dado = rolar_dado(DADO_COMBATE);
+            usar_habilidade(p, m);
 
-            ataque = atributo_principal(p) + dado + 5;
-
-            dano = calcula_dano(ataque, m->defesa);
-
-            dano_monstro(m, dano);
-			
-			limpar_terminal();
-            printf("\nVOCE UTILIZOU SUA HABILIDADE ESPECIAL!\n");
-            printf("Dado: %d\n", dado);
-            printf("Ataque total: %d\n", ataque);
-            printf("Dano causado: %d\n", dano);
-            printf("Vida do inimigo: %d/%d\n",
-                   m->vida_atual, m->vida_maxima);
 			printf("press ENTER para continuar...");
 			pausar();
 
@@ -371,9 +415,6 @@ ResultadoCombate combate(Personagem *p , Monstro *m){
 
 	}
 
-	if(p->vida_atual < 1 ){
-
-	}
 
 	if (m->vida_atual <= 0) {
 
@@ -388,7 +429,9 @@ ResultadoCombate combate(Personagem *p , Monstro *m){
 
         ganhar_xp(p, m->xp_recompensa);
 
-        printf("XP total: %d\n", p->xp);
+        aplicar_bonus_aleatorio(p);
+
+        printf("\nXP atual: %d/%d\n", p->xp, xp_necessario(p->nivel));
 
         printf("\nPressione ENTER para continuar...");
         pausar();

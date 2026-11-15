@@ -14,6 +14,16 @@
 
 #define XP_TESOURO 50
 
+#define XP_POR_NIVEL 100 
+        
+#define BONUS_VIDA_NIVEL 10       
+
+#define BONUS_VIDA_ALEATORIO 5   
+
+#define NIVEL_HABILIDADE_MAX 3   
+
+#define BONUS_DANO_HABILIDADE 3   
+
 typedef enum{
 	CLASSE_SHINIGAMI,
 	CLASSE_QUINCY,
@@ -58,8 +68,9 @@ typedef struct {
 	int ativa_defesa;
 	int agilidade;
 	int inteligencia;
-	int xp;
+	int xp;          /* xp rumo ao proximo nivel */
 	int nivel;
+	int nivel_habilidade;
 	char arma[50];
 	char roupa[50];
 } Personagem;
