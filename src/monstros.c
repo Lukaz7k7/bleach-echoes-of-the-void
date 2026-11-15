@@ -74,6 +74,14 @@ void criar_monstro(Monstro *m, int fase, int indice) {
     m->vida_atual = m->vida_maxima;
     m->nivel = fase;
     m->xp_recompensa = xp_base[indice] * fase;
+
+    if(indice == 3){
+        m->chefe = 1;
+    }
+    else{
+        m->chefe = 0;
+    }
+
 }
 void dano_monstro(Monstro *m, int dano){
         if (dano <= 0) {
