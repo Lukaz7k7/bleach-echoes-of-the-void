@@ -6,6 +6,8 @@
 
 #include <time.h>
 
+#include "personagem.h"
+
 void limpar_terminal(void) {
     printf("\033[3J\033[2J\033[H");
     fflush(stdout);
@@ -37,6 +39,92 @@ int ler_inteiro(void) {
     }
 
     return numero;
+}
+
+
+/* Tela de vitoria final */
+void mostrar_tela_vitoria(Personagem *p) {
+
+    limpar_terminal();
+
+    printf("\n");
+    printf("\033[1;32m");
+    printf("============================================================\n");
+    printf("                                                            \n");
+    printf("                    V I T O R I A !                         \n");
+    printf("                                                            \n");
+    printf("============================================================\n");
+    printf("\033[0m");
+
+    printf("\n");
+    printf("        OS TRES MUNDOS FORAM SALVOS!\n\n");
+
+    printf("Aparicion foi derrotado e sua influencia sobre os\n");
+    printf("tres mundos finalmente chegou ao fim.\n\n");
+
+    printf("O ciclo de sofrimento que ele pretendia encerrar\n");
+    printf("pela destruicao dos mundos foi impedido.\n\n");
+
+    printf("Sua jornada chegou ao fim, %s!\n", p->nome);
+
+    printf("\n");
+    printf("============================================================\n");
+    printf("                  STATUS FINAL\n");
+    printf("============================================================\n");
+
+    printf("Personagem: %s\n", p->nome);
+    printf("Classe: %s\n", nome_da_classe(p->classe));
+    printf("Nivel: %d\n", p->nivel);
+    printf("XP: %d\n", p->xp);
+    printf("Vida: %d/%d\n", p->vida_atual, p->vida_maxima);
+
+    printf("\n");
+    printf("       OBRIGADO POR JOGAR!\n");
+    printf("          BLEACH: ECHOES OF THE VOID\n");
+
+    printf("\nPressione ENTER para encerrar...");
+    pausar();
+}
+
+
+/* Tela de Game Over */
+void mostrar_tela_game_over(Personagem *p) {
+
+    limpar_terminal();
+
+    printf("\n");
+    printf("\033[1;31m");
+    printf("============================================================\n");
+    printf("                                                            \n");
+    printf("                  G A M E   O V E R                         \n");
+    printf("                                                            \n");
+    printf("============================================================\n");
+    printf("\033[0m");
+
+    printf("\n");
+    printf("Sua jornada chegou ao fim...\n\n");
+
+    printf("%s foi derrotado.\n", p->nome);
+
+    printf("A ameaca sobre os tres mundos permanece.\n");
+    printf("Aparicion continua livre para espalhar sua influencia.\n\n");
+
+    printf("============================================================\n");
+    printf("                  STATUS FINAL\n");
+    printf("============================================================\n");
+
+    printf("Personagem: %s\n", p->nome);
+    printf("Classe: %s\n", nome_da_classe(p->classe));
+    printf("Nivel: %d\n", p->nivel);
+    printf("XP: %d\n", p->xp);
+    printf("Vida: %d/%d\n", p->vida_atual, p->vida_maxima);
+
+    printf("\n");
+    printf("       FIM DA JORNADA\n");
+    printf("          BLEACH: ECHOES OF THE VOID\n");
+
+    printf("\nPressione ENTER para encerrar...");
+    pausar();
 }
 
 

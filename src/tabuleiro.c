@@ -64,6 +64,7 @@ static char *nome_da_casa(TipoDeCasa tipo){
 void mostrar_tabuleiro(Tabuleiro *t) {
 
     const char *nome_fase;
+    const char *missao;
 
     /* Identifica o nome da fase */
 
@@ -71,18 +72,22 @@ void mostrar_tabuleiro(Tabuleiro *t) {
 
         case 1:
             nome_fase = "MUNDO DOS VIVOS";
+            missao = "Investigar a anomalia e derrotar o Ceifador Ressonante";
             break;
 
         case 2:
             nome_fase = "HUECO MUNDO";
+            missao = "Rastrear a energia e derrotar o Guardiao da Fenda";
             break;
 
         case 3:
             nome_fase = "VALE DOS GRITOS";
+            missao = "Desvendar as ruinas e derrotar Aparicion";
             break;
 
         default:
             nome_fase = "REGIAO DESCONHECIDA";
+            missao = "---";
             break;
     }
 
@@ -91,6 +96,7 @@ void mostrar_tabuleiro(Tabuleiro *t) {
     printf("              BLEACH: ECHOES OF THE VOID\n");
     printf("                 FASE %d - %s\n", t->fase_atual, nome_fase);
     printf("===============================================================\n");
+    printf(" MISSAO: %s\n", missao);
 
     printf("\n POSICAO ATUAL: CASA %02d DE %02d\n",
            t->posicao_player + 1, TAM_TABULEIRO);
