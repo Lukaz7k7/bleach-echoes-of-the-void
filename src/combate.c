@@ -60,6 +60,7 @@ void mostrar_inicio_combate(Personagem *p, Monstro *m) {
     printf("\n");
     printf("============================================================\n");
     printf("                  COMBATE INICIADO!\n");
+	if (m->chefe == 1) { printf("                 *** CHEFE DA FASE ***\n"); }
     printf("============================================================\n\n");
 
     printf("\033[1;31m");
@@ -391,6 +392,7 @@ static int turno_player(Personagem *p, Monstro *m, int *habilidade_usada) {
 }
 
 ResultadoCombate combate(Personagem *p , Monstro *m){
+	p->ativa_defesa = 0;
 	mostrar_inicio_combate(p,m);
 	int habilidade_usada = 0;
 	int fugiu = 0;

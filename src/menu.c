@@ -4,8 +4,6 @@
 
 #include <stdio.h>
 
-#include <time.h>
-
 #include "personagem.h"
 
 void limpar_terminal(void) {
@@ -19,11 +17,6 @@ void pausar(){
 
 }
 
-void esperar(double segundos){
-    clock_t fim = clock() + (clock_t)(segundos * CLOCKS_PER_SEC);
-    fflush(stdout);
-    while (clock() < fim) { }
-}
 
 
 int ler_inteiro(void) {
