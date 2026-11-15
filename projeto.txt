@@ -1,405 +1,273 @@
-==> Makefile <==
-bleach-game: src/main.c src/jogo.c src/combate.c src/monstros.c src/personagem.c src/progressao.c src/tabuleiro.c src/menu.c
-	gcc -std=c99 -Wall -Wextra -Iinclude src/main.c src/jogo.c src/combate.c src/monstros.c src/personagem.c src/progressao.c src/tabuleiro.c src/menu.c -o bleach-game -lm
+# BLEACH: ECHOES OF THE VOID
+## DOCUMENTAÇÃO TÉCNICA DO PROJETO
 
-clean: 
-	 rm -f bleach-game
+---
 
-==> include/combate.h <==
+## 1. IDENTIFICAÇÃO DO PROJETO
 
-==> include/jogo.h <==
-#ifndef JOGO_H
-#define JOGO_H
+**Nome do projeto:** BLEACH: ECHOES OF THE VOID  
+**Tipo de aplicação:** Jogo RPG de terminal com combate por turnos  
+**Linguagem de programação:** C  
+**Padrão utilizado:** ANSI C99  
+**Compilador:** GCC  
+**Ferramenta de compilação:** Make  
+**Desenvolvedor:** [Nome do desenvolvedor]  
+**Instituição:** Universidade Federal do Rio Grande do Norte (UFRN)
 
-int rolar_dado(int lados);
+---
 
-#endif
+## 2. APRESENTAÇÃO DO PROJETO
 
-==> include/menu.h <==
-#ifndef MENU_H
+BLEACH: ECHOES OF THE VOID é um jogo de RPG desenvolvido em linguagem C, inspirado no universo do anime e mangá Bleach.
 
-#define MENU_H
+O projeto apresenta uma aventura narrativa na qual o jogador controla um personagem que precisa investigar acontecimentos espirituais anormais, enfrentar inimigos e descobrir a origem de uma ameaça que coloca em risco o equilíbrio dos três mundos.
 
-#include "tipos.h"
+O jogo possui uma estrutura baseada em exploração por tabuleiro, movimentação aleatória, eventos, missões, combates por turnos e evolução de personagem.
 
-void limpar_terminal(void);
+A experiência é dividida em três fases, cada uma apresentando novos desafios, inimigos e acontecimentos relacionados à narrativa principal.
 
-ClasseDoPersonagem menu_escolher_classe(void);
+---
 
-int ler_inteiro(void);
+## 3. OBJETIVOS DO PROJETO
 
-void ler_nome(char nome[], int tamanho);
+### 3.1 Objetivo geral
 
-#endif
+Desenvolver um jogo de RPG em terminal utilizando a linguagem C, aplicando conceitos fundamentais de programação estruturada e organização modular.
 
-==> include/monstros.h <==
+### 3.2 Objetivos específicos
 
-==> include/personagem.h <==
-#ifndef PERSONAGEM_H
+- Implementar um sistema de criação e escolha de personagens.
+- Desenvolver diferentes classes jogáveis, com características e habilidades próprias.
+- Criar um sistema de movimentação baseado em lançamento de dados.
+- Implementar combates por turnos entre personagens e inimigos.
+- Desenvolver um sistema de experiência e evolução de personagem.
+- Criar eventos e missões distribuídos ao longo das fases.
+- Implementar inimigos comuns e chefes de fase.
+- Organizar o código em módulos, separando as responsabilidades de cada parte do jogo.
 
-#define PERSONAGEM_H
+---
 
-#include "tipos.h"
+## 4. HISTÓRIA E AMBIENTAÇÃO
 
-void criar_personagem(Personagem *p, ClasseDoPersonagem classe, char nome[]);
+A história se passa após os acontecimentos da Guerra Sangrenta dos Mil Anos, período em que os três mundos voltaram a apresentar relativa estabilidade.
 
-void mostrar_personagem(Personagem *p);
+Entretanto, fenômenos espirituais desconhecidos começam a ocorrer. Hollows apresentam comportamentos anormais, almas desaparecem e o fluxo de energia espiritual passa a sofrer alterações inexplicáveis.
 
-const char *nome_da_classe(ClasseDoPersonagem classe);
+Durante as investigações, surge a descoberta de uma entidade ancestral conhecida como **Aparición**.
 
-#endif
+Originária de uma época primordial, quando os três mundos ainda formavam uma única realidade, essa entidade foi enfraquecida e fragmentada durante a separação dos mundos.
 
-==> include/progressao.h <==
+Após permanecer escondida em regiões entre as dimensões, Aparición começa a recuperar sua força. Sua intenção é destruir a estrutura atual dos três mundos, acreditando que o ciclo de sofrimento existente entre eles precisa chegar ao fim.
 
-==> include/tabuleiro.h <==
+O protagonista precisa investigar os acontecimentos, enfrentar as criaturas corrompidas e descobrir a verdadeira origem dessa ameaça.
 
-==> include/tipos.h <==
-#ifndef TIPOS_H
+### 4.1 Divisão da história
 
-#define TIPOS_H
+**Fase 1 — Mundo dos Vivos**
 
-#define TAM_TABULEIRO 12
+A investigação começa no Mundo dos Vivos, onde fenômenos espirituais anormais passam a ocorrer. O jogador enfrenta criaturas corrompidas e procura descobrir a origem dos desaparecimentos de almas.
 
-typedef enum{
-	CLASSE_SHINIGAMI,
-	CLASSE_QUINCY,
-	CLASSE_HOLLOW
-} ClasseDoPersonagem;
+**Fase 2 — Hueco Mundo**
 
-typedef enum{
-	CASA_VAZIA,
-	CASA_COMBATE,
-	CASA_TESOURO,
-	CASA_CURA,
-	CASA_ARMADILHA,
-	CASA_MISSAO,
-	CASA_CHEFE
-} TipoDeCasa;
+A investigação conduz o protagonista até Hueco Mundo, onde novos inimigos e acontecimentos revelam a existência de uma conexão entre as anomalias espirituais e regiões desconhecidas.
 
-typedef enum{
-	ACAO_ATACAR = 1,
-	ACAO_DEFENDER,
-	ACAO_HABILIDADE,
-	ACAO_FUGIR
-} AcaoCombate;
+**Fase 3 — Vale dos Gritos**
 
-typedef struct {
-	char nome[50];
-	ClasseDoPersonagem classe;
-	int vida_atual;
-	int vida_maxima;
-	int forca;
-	int defesa;
-	int ativa_defesa;
-	int agilidade;
-	int inteligencia;
-	int xp;
-	int nivel;
-	char arma[50];
-	char roupa[50];
-} Personagem;
+Na última etapa, o protagonista chega ao Vale dos Gritos, onde são revelados os segredos relacionados à origem de Aparición. O jogador precisa enfrentar a ameaça final e decidir o destino dos três mundos.
 
-typedef struct {
-	char nome[50];
-	char descricao[100];
-	int vida_atual;
-	int vida_maxima;
-	int ataque;
-	int defesa;
-	int nivel;
-	int xp_recompensa;
-} Monstro;
+---
 
-typedef struct {
-	int visitada;
-	TipoDeCasa evento;
-} Casa;
+## 5. SISTEMA DE JOGO
 
-typedef struct {
-	Casa casas[TAM_TABULEIRO];
-	int posicao_player;
-	int fase_atual;
-} Tabuleiro;
+O jogo utiliza uma estrutura de RPG com movimentação por tabuleiro e combates em turnos.
 
-#endif
+### 5.1 Criação de personagem
 
+No início da partida, o jogador informa o nome do personagem e escolhe uma entre três classes disponíveis: Shinigami, Quincy ou Hollow.
 
+Cada classe possui características próprias, incluindo atributos iniciais e uma habilidade especial.
 
+### 5.2 Movimentação
 
-==> src/combate.c <==
+A movimentação pelo tabuleiro é realizada por meio de um dado de seis lados (D6).
 
-==> src/jogo.c <==
-#include <stdio.h>
-#include <stdlib.h>
-#include "jogo.h"
+O resultado do lançamento determina a quantidade de casas que o personagem poderá avançar.
 
-int rolar_dado(int lados){
+Durante a exploração, o jogador pode encontrar diferentes tipos de eventos, que influenciam o desenvolvimento da partida.
 
-	return rand() % lados + 1;
+### 5.3 Eventos do tabuleiro
 
-}
+O tabuleiro possui diferentes tipos de casas, responsáveis por gerar acontecimentos durante a exploração.
 
-==> src/main.c <==
-#include <stdio.h>
+Entre os eventos implementados estão:
 
-#include "tipos.h"
+- **Casa vazia:** não apresenta um acontecimento especial.
+- **Casa de combate:** inicia uma batalha contra um inimigo.
+- **Casa de tesouro:** oferece uma recompensa ao jogador.
+- **Casa de cura:** recupera parte da vida do personagem.
+- **Casa de armadilha:** apresenta um obstáculo que pode prejudicar o jogador.
+- **Casa de missão:** apresenta objetivos necessários para o avanço na fase.
 
-#include "personagem.h"
+### 5.4 Sistema de combate
 
-#include "menu.h"
+O combate acontece por turnos, alternando as ações do jogador e do inimigo.
 
-#include <stdlib.h>
+Durante a batalha, o jogador pode escolher entre quatro ações principais:
 
-#include <time.h>
+- **Atacar:** realiza um ataque contra o inimigo.
+- **Defender:** ativa uma condição defensiva para reduzir os efeitos dos ataques recebidos.
+- **Habilidade especial:** utiliza a habilidade exclusiva da classe escolhida.
+- **Fugir:** permite tentar escapar de determinados combates.
 
-#include "jogo.h"
+O sistema utiliza um dado de vinte lados (D20) em suas mecânicas de combate, introduzindo aleatoriedade nos resultados das ações.
 
-int main(){
-	srand(time(NULL));
+Os chefes possuem regras especiais, incluindo a impossibilidade de fugir do combate.
 
-	printf("\n--- TESTE DO DADO D6 ---\n");
+### 5.5 Sistema de progressão
 
-	for (int i = 0; i < 10; i++) {
-    		printf("Rolagem %d: %d\n", i + 1, rolar_dado(6));
-	}
+Ao vencer combates, o personagem recebe pontos de experiência (XP).
 
-	printf("\n--- TESTE DO DADO D20 ---\n");
+A experiência acumulada permite evoluir de nível, aumentando os atributos do personagem e melhorando sua capacidade de enfrentar inimigos mais fortes.
 
-	for (int i = 0; i < 10; i++) {
-    		printf("Rolagem %d: %d\n", i + 1, rolar_dado(20));
-	}
+O sistema de progressão contribui para o desenvolvimento do personagem ao longo das três fases.
 
-	char descarte[32];
-	fgets(descarte, sizeof(descarte), stdin);
+### 5.6 Missões e chefes
 
-	char nome[100];
+Cada fase possui uma missão principal que precisa ser concluída para permitir o avanço até o confronto contra o chefe.
 
-	Personagem personagem;
+O jogador precisa cumprir os objetivos estabelecidos antes de enfrentar o inimigo responsável por encerrar a etapa.
 
-	ClasseDoPersonagem classe = menu_escolher_classe();
+### 5.7 Condições de vitória e derrota
 
-	ler_nome(nome, 32);
+A vitória acontece quando o jogador consegue superar os desafios das três fases e derrotar o chefe final, Aparición.
 
-	criar_personagem(&personagem,classe , nome);
+A derrota acontece quando os pontos de vida do personagem chegam a zero durante a partida.
 
-	mostrar_personagem(&personagem);
+---
 
-        return 0;
+## 6. CLASSES DE PERSONAGEM
 
-}
+O jogador pode escolher entre três classes inspiradas no universo de Bleach.
 
-==> src/menu.c <==
-#include <string.h>
+### 6.1 Shinigami
 
-#include "menu.h"
+Guerreiros responsáveis por manter o equilíbrio espiritual entre os mundos.
 
-#include <stdio.h>
+Sua habilidade especial é a **Bankai**, que aumenta o poder de ataque durante o combate.
 
+### 6.2 Quincy
 
-void limpar_terminal(void) {
-    printf("\033[2J\033[H");
-}
+Guerreiros que utilizam energia espiritual para executar ataques à distância.
 
-int ler_inteiro(void) {
-    char linha[32];
-    int numero;
+Sua habilidade especial é o **Heilig Pfeil**, que utiliza duas rolagens de D20 e considera o maior resultado.
 
-    if (fgets(linha, sizeof(linha), stdin) == NULL) {
-        return -1;
-    }
+### 6.3 Hollow
 
-    if (sscanf(linha, "%d", &numero) != 1) {
-        return -1;
-    }
+Criaturas espirituais que possuem habilidades próprias e grande capacidade ofensiva.
 
-    return numero;
-}
+Sua habilidade especial é o **Cero**, que permite realizar um ataque que ignora a defesa do inimigo.
 
-ClasseDoPersonagem menu_escolher_classe(void){
-	int classe = 4;
-	do{
+---
 
-		limpar_terminal();
+## 7. ORGANIZAÇÃO E ESTRUTURA DO CÓDIGO
 
-		printf("BLEACH\n");
-		printf("ECHOES OF THE VOID\n");
+O projeto foi organizado em diferentes arquivos de implementação (`.c`) e arquivos de cabeçalho (`.h`).
 
-		printf("\n[1] SHINIGAMI\n");
-		printf("Guerreiros da Soul Society. Classe equilibrada,");
-		printf(" com boa vida, forca e defesa.\n");
-		printf("Vida: 110 | Forca: 11 | Defesa: 9 | Agilidade: 7 | Inteligencia: 7\n");
+Essa divisão permite separar as responsabilidades do programa, facilitando a leitura, manutenção e evolução do código.
 
-		printf("\n[2] QUINCY\n");
-		printf("Manipuladores de particulas espirituais.");
-		printf(" Especialistas em velocidade e inteligencia.\n");
-		printf("Vida: 90 | Forca: 7 | Defesa: 6 | Agilidade: 12 | Inteligencia: 10\n");
+### 7.1 Arquivos de implementação
 
-		printf("\n[3] HOLLOW\n");
-		printf("Criaturas espirituais predadoras. Possuem");
-		printf(" grande forca fisica, mas pouca defesa.\n");
-		printf("Vida: 100 | Forca: 13 | Defesa: 4 | Agilidade: 8 | Inteligencia: 4\n");
+- **main.c:** contém o ponto de entrada do programa e coordena a execução principal das fases do jogo.
+- **jogo.c:** controla o fluxo geral da partida, incluindo a exploração do tabuleiro e a execução dos eventos.
+- **combate.c:** implementa o sistema de batalhas por turnos, controlando as ações do jogador e dos inimigos.
+- **monstros.c:** contém a definição e os dados dos inimigos e chefes encontrados durante as fases.
+- **personagem.c:** implementa funcionalidades relacionadas à criação, atributos e gerenciamento do personagem.
+- **progressao.c:** controla o sistema de experiência e evolução do personagem.
+- **tabuleiro.c:** implementa a criação e organização das casas do tabuleiro.
+- **menu.c:** reúne as funcionalidades de interface textual, menus e telas apresentadas ao jogador.
+- **historia.c:** contém os textos narrativos e elementos relacionados à apresentação da história do jogo.
 
-		printf("\n");
-		printf("\n");
-		printf("ESCOLHA A CLASSE DO SEU PERSONAGEM : ");
-		classe = ler_inteiro();
+### 7.2 Arquivos de cabeçalho
 
-		if (classe < 1 || classe > 3){
-			printf("\n");
-			printf("\n");
-			printf("CLASSE INVALIDA ! TENTE NOVAMENTE ! \n");
-			printf("press ENTER para continuar");
+Os arquivos de cabeçalho possuem declarações de estruturas, tipos, constantes e protótipos de funções utilizados pelos diferentes módulos.
 
-			char descarte[32];
-			fgets(descarte,sizeof(descarte), stdin);
-		}
+- **tipos.h:** reúne definições de tipos e estruturas utilizadas em diferentes partes do programa.
+- **jogo.h:** declara funções relacionadas ao fluxo principal do jogo.
+- **combate.h:** declara funções e elementos relacionados ao sistema de combate.
+- **monstros.h:** declara estruturas e funções relacionadas aos inimigos.
+- **personagem.h:** declara estruturas e funções relacionadas ao personagem.
+- **progressao.h:** declara funcionalidades do sistema de evolução.
+- **tabuleiro.h:** declara estruturas e funções relacionadas ao tabuleiro.
+- **menu.h:** declara funcionalidades relacionadas aos menus e à interface.
+- **historia.h:** declara funcionalidades relacionadas à narrativa.
 
-	}while (classe < 1 || classe > 3);
+---
 
-	return classe - 1;
+## 8. TECNOLOGIAS E FERRAMENTAS UTILIZADAS
 
-}
+Para o desenvolvimento do projeto, foram utilizadas as seguintes tecnologias:
 
-void ler_nome(char nome[], int tamanho){
-	do{
-		limpar_terminal();
-		printf("digite o nome do seu personagem : ");
-		fgets(nome , tamanho , stdin);
-		nome[strcspn(nome, "\n")] = '\0';
+- **Linguagem C:** utilizada para implementar toda a lógica do jogo.
+- **GCC:** compilador responsável pela geração do executável.
+- **ANSI C99:** padrão da linguagem utilizado na compilação.
+- **Make:** ferramenta utilizada para automatizar o processo de compilação.
+- **Git:** sistema de controle de versão utilizado durante o desenvolvimento.
+- **GitHub:** plataforma utilizada para armazenar e disponibilizar o código-fonte.
 
-		if(nome[0] == '\0'){
-			printf("NOME INVALIDO, DIGITE NOVAMENTE !\n");
-			printf("press ENTER para continuar");
-			char descarte[32];
-			fgets(descarte, sizeof(descarte), stdin);
+O projeto foi desenvolvido em ambiente Linux.
 
-		}
+---
 
+## 9. COMPILAÇÃO E EXECUÇÃO
 
-	}while(nome[0] == '\0');
+Para compilar e executar o projeto, é necessário possuir o compilador GCC e a ferramenta Make instalados.
 
+Com o terminal aberto na pasta principal do projeto, execute os seguintes comandos:
 
+**Compilar o projeto:**
 
-}
+    make
 
-==> src/monstros.c <==
+**Executar o jogo:**
 
-==> src/personagem.c <==
-#include <string.h>
+    ./bleach-game
 
-#include "personagem.h"
+**Remover o executável gerado:**
 
-#include <stdio.h>
+    make clean
 
-void criar_personagem(Personagem *p, ClasseDoPersonagem classe, char nome[]) {
-	strcpy(p->nome, nome);
-	p->classe = classe;
-	p->nivel = 1;
-	p->xp = 0;
-	p->ativa_defesa = 0;
-	switch (classe) {
-		case CLASSE_SHINIGAMI:
-			p->vida_atual = 110;
-			p->vida_maxima = 110;
-			p->forca = 11;
-			p->defesa = 9;
-			p->agilidade = 7;
-			p->inteligencia = 7;
-			strcpy(p->arma, "zanpakuto");
-			strcpy(p->roupa, "shihakusho");
-			break;
+O processo de compilação utiliza o padrão C99 e as opções de compilação definidas no Makefile.
 
-		case CLASSE_QUINCY:
-			p->vida_atual = 90;
-			p->vida_maxima = 90;
-			p->forca = 7;
-			p->defesa = 6;
-			p->agilidade = 12;
-			p->inteligencia = 10;
-			strcpy(p->arma, "arco espiritual");
-			strcpy(p->roupa, "tunicas quincy");
-			break;
+---
 
-		case CLASSE_HOLLOW:
-			p->vida_atual = 100;
-			p->vida_maxima = 100;
-			p->forca = 13;
-			p->defesa = 4;
-			p->agilidade = 8;
-			p->inteligencia = 4;
-			strcpy(p->arma, "nenhuma");
-			strcpy(p->roupa, "mascara hollow");
-			break;
-	}
-}
+## 10. CONCEITOS DE PROGRAMAÇÃO APLICADOS
 
-const char *nome_da_classe(ClasseDoPersonagem classe){
-	switch (classe){
-		case CLASSE_SHINIGAMI:
-			return "Shinigami";
+Durante o desenvolvimento do projeto, foram utilizados diferentes conceitos fundamentais da linguagem C:
 
-		case CLASSE_QUINCY:
-			return "Quincy";
+- **Estruturas (`struct`):** utilizadas para representar personagens, inimigos, casas e elementos do jogo.
+- **Tipos enumerados (`enum`):** utilizados para representar categorias e estados do jogo.
+- **Funções:** utilizadas para dividir as funcionalidades em operações menores e organizadas.
+- **Ponteiros:** utilizados para permitir o acesso e a modificação de dados por meio de referências.
+- **Estruturas condicionais:** utilizadas para controlar decisões e acontecimentos durante a partida.
+- **Estruturas de repetição:** utilizadas para controlar menus, turnos de combate e execução do jogo.
+- **Geração de números aleatórios:** utilizada nas mecânicas de movimentação e combate.
+- **Modularização:** utilizada para separar o programa em diferentes arquivos e organizar suas responsabilidades.
 
-		case CLASSE_HOLLOW:
-			return "Hollow";
-	}
-	return "desconhecida";
+---
 
-}
+## 11. CONSIDERAÇÕES FINAIS
 
+O desenvolvimento de BLEACH: ECHOES OF THE VOID permitiu aplicar, de maneira prática, conceitos fundamentais da programação em linguagem C.
 
+A construção do jogo envolveu a implementação de diferentes sistemas que trabalham em conjunto, como criação de personagens, movimentação, combate, progressão, eventos e narrativa.
 
-void mostrar_personagem(Personagem *p) {
+A organização modular do código contribuiu para separar as funcionalidades e facilitar o desenvolvimento e a manutenção do projeto.
 
-    printf("\n");
-    printf("  +------------------------------------------------------+\n");
-    printf("  |                  STATUS DO GUERREIRO                 \n");
-    printf("  +------------------------------------------------------+\n");
+Além de atender à proposta de desenvolver uma aplicação utilizando os conceitos estudados, o projeto também oferece possibilidades de expansão futura, como a inclusão de novas classes, habilidades, inimigos, fases e sistemas de jogo.
 
-    printf("  | NOME: %-20s CLASSE: %-14s \n",
-           p->nome, nome_da_classe(p->classe));
+---
 
-    printf("  +------------------------------------------------------+\n");
-    printf("  | VIDA: %d/%d                                      \n",
-           p->vida_atual, p->vida_maxima);
+## 12. REPOSITÓRIO DO PROJETO
 
-    printf("  | NIVEL: %-4d XP: %-10d                       \n",
-           p->nivel, p->xp);
-
-    printf("  +------------------------------------------------------+\n");
-    printf("  |                     ATRIBUTOS                        \n");
-
-    printf("  | FORCA: %-4d DEFESA: %-4d AGILIDADE: %-4d      \n",
-           p->forca, p->defesa, p->agilidade);
-
-    printf("  | INTELIGENCIA: %-5d                                \n",
-           p->inteligencia);
-
-    printf("  +------------------------------------------------------+\n");
-    printf("  |                    EQUIPAMENTOS                      \n");
-
-    printf("  | ARMA: %-47s \n", p->arma);
-    printf("  | ROUPA: %-46s \n", p->roupa);
-
-    printf("  +------------------------------------------------------+\n");
-    printf("\n");
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-==> src/progressao.c <==
-
-==> src/tabuleiro.c <==
+**GitHub:**  
+https://github.com/Lukaz7k7/bleach-echoes-of-the-void.git
