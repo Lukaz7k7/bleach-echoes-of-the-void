@@ -15,4 +15,6 @@ int atributo_principal(Personagem *p);
 
 int calcula_dano(int ataque, int defesa);
 
+ResultadoCombate combate(Personagem *p, Monstro *m);
+
 #endif

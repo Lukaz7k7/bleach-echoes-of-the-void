@@ -93,7 +93,7 @@ void mostrar_inicio_combate(Personagem *p, Monstro *m) {
 }
 
 
-/* Tela apresentada durante o turno do jogador */
+
 void mostrar_turno_jogador(
     Personagem *p,
     Monstro *m,
@@ -192,8 +192,6 @@ static int turno_monstro(Monstro *m, Personagem *p) {
 
         defesa_usada = p->defesa * 2;
 
-        printf("\nVOCE ESTA EM POSICAO DEFENSIVA!\n");
-        printf("Sua defesa foi dobrada!\n");
 
         p->ativa_defesa = 0;
     }
@@ -204,7 +202,7 @@ static int turno_monstro(Monstro *m, Personagem *p) {
     
     dano = calcula_dano(ataque, defesa_usada);
 
-    
+    limpar_terminal();
     printf("\n");
     printf("============================================================\n");
     printf("                   TURNO DO MONSTRO\n");
@@ -214,7 +212,7 @@ static int turno_monstro(Monstro *m, Personagem *p) {
 
     printf("DADO ROLADO:          %d\n", dado);
     printf("ATAQUE DO MONSTRO:    %d\n", m->ataque);
-    printf("ATAQUE TOTAL:         %d\n", ataque);
+    printf("ATAQUE TOTAL (ataque + dado):         %d\n", ataque);
 
     printf("\n");
     printf("SUA DEFESA:           %d\n", defesa_usada);
@@ -227,6 +225,9 @@ static int turno_monstro(Monstro *m, Personagem *p) {
            p->vida_atual, p->vida_maxima);
 
     printf("\n============================================================\n");
+	printf("press ENTER para continuar...");
+	pausar();
+
 
     return dano;
 }
@@ -276,22 +277,27 @@ static int turno_player(Personagem *p, Monstro *m, int *habilidade_usada) {
 
             dano_monstro(m, dano);
 
+			limpar_terminal();
             printf("\nVoce atacou %s!\n", m->nome);
             printf("Dado: %d\n", dado);
-            printf("Ataque total: %d\n", ataque);
-            printf("Dano causado: %d\n", dano);
+            printf("Ataque total (dado + atributo principal ): %d\n", ataque);
+            printf("Dano causado ( ataque - defesa do inimigo ): %d\n", dano);
             printf("Vida do inimigo: %d/%d\n",
                    m->vida_atual, m->vida_maxima);
-
+			printf("press ENTER para continuar..");
+			pausar();
             break;
 
         case ACAO_DEFENDER:
 
             p->ativa_defesa = 1;
+			
+			limpar_terminal();
+			printf("\nVOCE ESTA EM POSICAO DEFENSIVA!\n");
+			printf("Sua defesa foi dobrada!\n");
 
-            printf("\nVoce assumiu uma postura defensiva!\n");
-            printf("Sua defesa sera aumentada no proximo ataque inimigo.\n");
-
+			printf("press ENTER para continuar...");
+			pausar();
             break;
 
         case ACAO_HABILIDADE:
@@ -305,21 +311,110 @@ static int turno_player(Personagem *p, Monstro *m, int *habilidade_usada) {
             dano = calcula_dano(ataque, m->defesa);
 
             dano_monstro(m, dano);
-
+			
+			limpar_terminal();
             printf("\nVOCE UTILIZOU SUA HABILIDADE ESPECIAL!\n");
             printf("Dado: %d\n", dado);
             printf("Ataque total: %d\n", ataque);
             printf("Dano causado: %d\n", dano);
             printf("Vida do inimigo: %d/%d\n",
                    m->vida_atual, m->vida_maxima);
+			printf("press ENTER para continuar...");
+			pausar();
 
             break;
 
         case ACAO_FUGIR:
+			dado = rolar_dado(DADO_COMBATE);
+			limpar_terminal();
+			printf("\nVoce tentou fugir de %s!\n", m->nome);
+            printf("Dado: %d\n", dado);
+            printf("total: %d\n", (dado+p->agilidade));
 
-            printf("\nVoce fugiu do combate!\n");
-            return 1;
+			if((dado + p->agilidade) >= VALOR_FUGA){
+            printf("\nVoce conseguiu fugir do combate!\n");
+            return 1;	
+			}
+			else {
+			printf("sua fuga falhou !\n");
+			printf("voce precisa de %d para fugir \n", VALOR_FUGA);
+			printf("press ENTER para continuar...");
+			pausar();
+			}
     }
 
     return 0;
 }
+
+ResultadoCombate combate(Personagem *p , Monstro *m){
+	mostrar_inicio_combate(p,m);
+	int habilidade_usada = 0;
+	int fugiu = 0;
+
+	while((p->vida_atual > 0 ) && (m->vida_atual > 0)){
+		fugiu = turno_player(p, m, &habilidade_usada);
+	
+		if(fugiu == 1){
+			return RESULTADO_COMBATE_FUGA;
+		}
+
+		if(m->vida_atual < 1){
+			break;
+		}
+
+
+		turno_monstro(m , p);
+
+		if(p->vida_atual < 1){
+			break;
+		}
+
+	}
+
+	if(p->vida_atual < 1 ){
+
+	}
+
+	if (m->vida_atual <= 0) {
+
+		limpar_terminal();
+        printf("\n");
+        printf("============================================================\n");
+        printf("                  VITORIA NO COMBATE!\n");
+        printf("============================================================\n");
+
+        printf("\nVoce derrotou %s!\n", m->nome);
+        printf("XP recebido: %d\n", m->xp_recompensa);
+
+        ganhar_xp(p, m->xp_recompensa);
+
+        printf("XP total: %d\n", p->xp);
+
+        printf("\nPressione ENTER para continuar...");
+        pausar();
+
+        return RESULTADO_COMBATE_VITORIA;
+    }
+
+    
+    if (p->vida_atual <= 0) {
+
+		limpar_terminal();
+        printf("\n");
+        printf("============================================================\n");
+        printf("                   VOCE FOI DERROTADO!\n");
+        printf("============================================================\n");
+
+        printf("\n%s venceu o combate!\n", m->nome);
+		printf("\n");
+		mostrar_personagem(p);
+        printf("\nPressione ENTER para continuar...");
+        pausar();
+
+        return RESULTADO_COMBATE_DERROTA;
+    }
+
+    return RESULTADO_COMBATE_DERROTA;
+}
+
+

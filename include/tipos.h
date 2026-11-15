@@ -10,6 +10,8 @@
 
 #define DADO_COMBATE 20
 
+#define VALOR_FUGA 20
+
 #define XP_TESOURO 50
 
 typedef enum{

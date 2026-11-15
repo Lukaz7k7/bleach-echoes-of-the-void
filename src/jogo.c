@@ -12,6 +12,7 @@
 
 #include "menu.h"
 
+#include "combate.h"
 
 
 
@@ -42,9 +43,15 @@ void executar_evento(Personagem *p, Tabuleiro *t){
 
 			curar(p , quantidade);
 
+			if(quantidade == 0){
+				printf("VOCE ENCONTROU UMA CURA !\n NAO RECUPERA VIDA POIS SUA VIDA JA ESTA CHEIA \n");
+				t->casas[t->posicao_player].visitada = 1;
+                break;
+			}
+
 			printf("VOCE ENCONTROU UMA CURA !\n RECUPEROU %d DE VIDA\n", quantidade);
 			t->casas[t->posicao_player].visitada = 1;
-                        break;
+            break;
 		}
 		case CASA_ARMADILHA:{
 			int quantidade = p->vida_maxima * 10 / 100;
@@ -89,6 +96,12 @@ void executar_evento(Personagem *p, Tabuleiro *t){
             printf("Vida: %d/%d\n", monstro.vida_atual,
                 monstro.vida_maxima);
 
+			ResultadoCombate resultado = combate(p, &monstro);
+
+			if (resultado == RESULTADO_COMBATE_VITORIA) {
+   				 t->casas[t->posicao_player].visitada = 1;
+			}
+
             break;
         }
         case CASA_CHEFE: {
@@ -107,7 +120,12 @@ void executar_evento(Personagem *p, Tabuleiro *t){
             printf("Descricao: %s\n", monstro.descricao);
             printf("Vida: %d/%d\n",
                    monstro.vida_atual, monstro.vida_maxima);
+			
+			   ResultadoCombate resultado = combate(p, &monstro);
 
+			if (resultado == RESULTADO_COMBATE_VITORIA) {
+    			t->casas[t->posicao_player].visitada = 1;
+			}
             break;
         }
 
