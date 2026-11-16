@@ -5,7 +5,7 @@
 
 #include <stdio.h>
 
-#include <progressao.h>
+#include "progressao.h"
 
 void criar_personagem(Personagem *p, ClasseDoPersonagem classe, char nome[]) {
 	strcpy(p->nome, nome);

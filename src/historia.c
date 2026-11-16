@@ -4,6 +4,8 @@
 
 #include "jogo.h"
 
+#include "historia.h"
+
 #include "personagem.h"
 
 #include "menu.h"
@@ -34,7 +36,10 @@ static int perguntar_pular_historia(void) {
 
     limpar_terminal();
 
-    printf("                 FASE 01 - MUNDO DOS VIVOS\n");
+    printf("========================================\n");
+    printf("       FASE 01 - MUNDO DOS VIVOS\n");
+    printf("========================================\n");
+
 
     if (perguntar_pular_historia()) {
         return;
@@ -184,7 +189,9 @@ static int perguntar_pular_historia(void) {
 
     limpar_terminal();
 
-    printf("voce caiu na casa da missao\n");
+    printf("============================================================\n");
+    printf("                 KARAKURA - INVESTIGACAO\n");
+    printf("============================================================\n\n");
 
     if (perguntar_pular_historia()) {
         return;
@@ -301,7 +308,10 @@ static int perguntar_pular_historia(void) {
 
     limpar_terminal();
 
-    printf("                 FASE 02 - HUECO MUNDO\n");
+    printf("========================================\n");
+    printf("       FASE 02 - HUECO MUNDO\n");
+    printf("========================================\n");
+
 
     if (perguntar_pular_historia()) {
         return;
@@ -424,11 +434,14 @@ static int perguntar_pular_historia(void) {
 
     limpar_terminal();
 
-    printf("voce caiu na casa da missao\n");
+    printf("============================================================\n");
+    printf("              HUECO MUNDO - PONTO DE CONVERGENCIA\n");
+    printf("============================================================\n\n");
 
     if (perguntar_pular_historia()) {
         return;
     }
+    
 
     printf("\n");
     printf("============================================================\n");
@@ -553,7 +566,11 @@ static int perguntar_pular_historia(void) {
 
     limpar_terminal();
 
-    printf("                 FASE 03 - VALE DOS GRITOS\n");
+    printf("========================================\n");
+    printf("       FASE 03 - VALE DOS GRITOS\n");
+    printf("========================================\n");
+
+
 
     if (perguntar_pular_historia()) {
         return;
@@ -675,8 +692,10 @@ void lore_missao_fase_tres(Personagem *p) {
 
     limpar_terminal();
 
-    printf("voce caiu na casa da missao\n");
-
+    printf("============================================================\n");
+    printf("             VALE DOS GRITOS - RUINAS ANTIGAS\n");
+    printf("============================================================\n\n");
+    
     if (perguntar_pular_historia()) {
         return;
     }

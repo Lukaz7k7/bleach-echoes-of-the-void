@@ -105,7 +105,7 @@ void mostrar_inicio_combate(Personagem *p, Monstro *m) {
 void mostrar_turno_jogador(
     Personagem *p,
     Monstro *m,
-    int habilidade_usada
+    int recarga_habilidade
 ) {
 
     limpar_terminal();
@@ -148,13 +148,13 @@ void mostrar_turno_jogador(
     printf("[1] ATACAR\n");
     printf("[2] DEFENDER\n");
 
-    if (habilidade_usada == 0) {
-        printf("[3] %s (nivel %d) [DISPONIVEL]\n",
-               nome_da_habilidade(p->classe), p->nivel_habilidade);
-    } else {
-        printf("[3] %s [UTILIZADA]\n", nome_da_habilidade(p->classe));
-    }
-
+    if (recarga_habilidade == 0) {
+    	printf("[3] %s (nivel %d) [DISPONIVEL]\n",
+           nome_da_habilidade(p->classe), p->nivel_habilidade);
+	} else {
+    	printf("[3] %s [RECARGA: %d RODADAS]\n",
+           nome_da_habilidade(p->classe), recarga_habilidade);
+}
     printf("[4] FUGIR\n");
 
 }
@@ -290,14 +290,14 @@ static void usar_habilidade(Personagem *p, Monstro *m) {
     printf("Vida do inimigo: %d/%d\n", m->vida_atual, m->vida_maxima);
 }
 
-static int turno_player(Personagem *p, Monstro *m, int *habilidade_usada) {
+static int turno_player(Personagem *p, Monstro *m, int *recarga_habilidade) {
 
     int opcao;
     int ataque;
     int dano;
     int dado;
 
-    mostrar_turno_jogador(p, m, *habilidade_usada);
+    mostrar_turno_jogador(p, m, *recarga_habilidade);
 
     printf("\nSua escolha: ");
     opcao = ler_inteiro();
@@ -306,7 +306,7 @@ static int turno_player(Personagem *p, Monstro *m, int *habilidade_usada) {
         (opcao < ACAO_ATACAR) ||
         (opcao > ACAO_FUGIR) ||
         ((opcao == ACAO_FUGIR) && (m->chefe == 1)) ||
-        ((opcao == ACAO_HABILIDADE) && (*habilidade_usada == 1))
+        ((opcao == ACAO_HABILIDADE) && (*recarga_habilidade > 0))
     ) {
 
         printf("\nOPCAO INVALIDA! TENTE NOVAMENTE!\n");
@@ -315,10 +315,10 @@ static int turno_player(Personagem *p, Monstro *m, int *habilidade_usada) {
             printf("NAO PODE FUGIR NA BATALHA DO CHEFE!\n");
         }
 
-        if ((opcao == ACAO_HABILIDADE) && (*habilidade_usada == 1)) {
-            printf("A HABILIDADE ESPECIAL ESTA INDISPONIVEL!\n");
-        }
-
+        if ((opcao == ACAO_HABILIDADE) && (*recarga_habilidade > 0)) {
+    		printf("HABILIDADE EM RECARGA! AGUARDE %d RODADAS.\n",
+           		*recarga_habilidade);
+		}
         printf("\nSua escolha: ");
         opcao = ler_inteiro();
     }
@@ -360,7 +360,7 @@ static int turno_player(Personagem *p, Monstro *m, int *habilidade_usada) {
 
         case ACAO_HABILIDADE:
 
-            *habilidade_usada = 1;
+            *recarga_habilidade = 3;
 
             usar_habilidade(p, m);
 
@@ -394,11 +394,15 @@ static int turno_player(Personagem *p, Monstro *m, int *habilidade_usada) {
 ResultadoCombate combate(Personagem *p , Monstro *m){
 	p->ativa_defesa = 0;
 	mostrar_inicio_combate(p,m);
-	int habilidade_usada = 0;
-	int fugiu = 0;
+	int recarga_habilidade = 0;
+    int fugiu = 0;
+    int recarga_antes_turno;
 
 	while((p->vida_atual > 0 ) && (m->vida_atual > 0)){
-		fugiu = turno_player(p, m, &habilidade_usada);
+		
+		recarga_antes_turno = recarga_habilidade;
+
+		fugiu = turno_player(p, m, &recarga_habilidade);
 	
 		if(fugiu == 1){
 			return RESULTADO_COMBATE_FUGA;
@@ -413,6 +417,10 @@ ResultadoCombate combate(Personagem *p , Monstro *m){
 
 		if(p->vida_atual < 1){
 			break;
+		}
+
+		if (recarga_antes_turno > 0 && recarga_habilidade > 0) {
+    		recarga_habilidade--;
 		}
 
 	}

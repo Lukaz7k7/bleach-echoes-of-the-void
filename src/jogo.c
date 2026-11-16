@@ -14,6 +14,8 @@
 
 #include "combate.h"
 
+#include "progressao.h"
+
 
 
 #include "historia.h"
@@ -25,15 +27,28 @@ int rolar_dado(int lados){
 
 void executar_evento(Personagem *p, Tabuleiro *t){
 	switch(t->casas[t->posicao_player].evento){
+
 		case CASA_VAZIA:
-			printf("mensagem da lore");
-			t->casas[t->posicao_player].visitada = 1;
-			break;
+            switch (t->fase_atual) {
+                case 1:
+                    printf("Uma alma perdida relata ataques de um Shinigami nas ruas de Karakura.\n");
+                    break;
+                case 2:
+                    printf("Rastros de uma criatura desconhecida marcam a areia de Hueco Mundo.\n");
+                    break;
+                default:
+                    printf("Uma inscricao antiga fala da origem dos tres mundos.\n");
+                    break;
+            }
+            t->casas[t->posicao_player].visitada = 1;
+            break;
+
 		case CASA_TESOURO:
-			ganhar_xp(p , XP_TESOURO);
 			printf("VOCE ACHOU UM TESOURO !\n GANHOU %d XP\n", XP_TESOURO);
+			ganhar_xp(p , XP_TESOURO);
 			t->casas[t->posicao_player].visitada = 1;
 			break;
+
 		case CASA_CURA:{
 			int quantidade = p->vida_maxima * 25 / 100;
 
@@ -53,6 +68,7 @@ void executar_evento(Personagem *p, Tabuleiro *t){
 			t->casas[t->posicao_player].visitada = 1;
             break;
 		}
+
 		case CASA_ARMADILHA:{
 			int quantidade = p->vida_maxima * 10 / 100;
 			receber_dano(p, quantidade);
@@ -60,6 +76,7 @@ void executar_evento(Personagem *p, Tabuleiro *t){
 			printf("VOCE CAIU EM UMA ARMADILHA !\n PERDEU %d HP\n", quantidade);
                         break;
 		}
+
 		case CASA_MISSAO:
 		    switch (t->fase_atual) {
 
@@ -79,22 +96,19 @@ void executar_evento(Personagem *p, Tabuleiro *t){
             			printf("MISSÃO DA FASE NÃO ENCONTRADA!\n");
             			break;
 		    }
-
+				printf("\nMISSAO CUMPRIDA! O caminho ate o chefe esta livre!\n");
+				printf("press ENTER para continuar\n");
+				pausar();
     			t->missao_concluida = 1;
     			t->casas[t->posicao_player].visitada = 1;
     			break;
+
         case CASA_COMBATE: {
             Monstro monstro;
 
             int indice = t->casas[t->posicao_player].indice_monstro;
 
             criar_monstro(&monstro, t->fase_atual, indice);
-
-            printf("\nUM INIMIGO APARECEU!\n\n");
-            printf("Nome: %s\n", monstro.nome);
-            printf("Descricao: %s\n", monstro.descricao);
-            printf("Vida: %d/%d\n", monstro.vida_atual,
-                monstro.vida_maxima);
 
 			ResultadoCombate resultado = combate(p, &monstro);
 
@@ -104,6 +118,7 @@ void executar_evento(Personagem *p, Tabuleiro *t){
 
             break;
         }
+
         case CASA_CHEFE: {
             Monstro monstro;
 
@@ -112,16 +127,7 @@ void executar_evento(Personagem *p, Tabuleiro *t){
 
             criar_monstro(&monstro, t->fase_atual, indice);
 
-            printf("\n========================================\n");
-            printf("             CHEFE DA FASE\n");
-            printf("========================================\n\n");
-
-            printf("Nome: %s\n", monstro.nome);
-            printf("Descricao: %s\n", monstro.descricao);
-            printf("Vida: %d/%d\n",
-                   monstro.vida_atual, monstro.vida_maxima);
-			
-			   ResultadoCombate resultado = combate(p, &monstro);
+			ResultadoCombate resultado = combate(p, &monstro);
 
 			if (resultado == RESULTADO_COMBATE_VITORIA) {
     			t->casas[t->posicao_player].visitada = 1;
