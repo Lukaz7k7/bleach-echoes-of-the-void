@@ -59,38 +59,75 @@ A jornada é dividida em três fases:
 - Make
 - Git e GitHub
 
-## Como compilar e executar
+## Compilação e execução
 
 ### Pré-requisitos
 
-- GCC
-- Make
-- Terminal compatível com sequências ANSI
+- Compilador GCC.
+- Git (opcional, para clonar o repositório).
+- Terminal compatível com o sistema operacional.
 
-### Clonar o repositório
+### Linux (CachyOS, Arch Linux e derivados)
+
+1. Instale o GCC e o Make:
+
+```bash
+sudo pacman -S gcc make git
+```
+
+2. Clone o repositório:
 
 ```bash
 git clone https://github.com/Lukaz7k7/bleach-echoes-of-the-void.git
+```
+
+3. Entre na pasta:
+
+```bash
 cd bleach-echoes-of-the-void
 ```
 
-### Compilar
+4. Compile:
 
 ```bash
-make
+make clean && make
 ```
 
-### Executar
+5. Execute:
 
 ```bash
 ./bleach-game
 ```
 
-### Limpar os arquivos compilados
+### Windows
 
-```bash
-make clean
+1. Instale um ambiente de compilação C com GCC, como o MinGW-w64, e configure o GCC no PATH do Windows.
+
+2. Clone o repositório:
+
+```powershell
+git clone https://github.com/Lukaz7k7/bleach-echoes-of-the-void.git
 ```
+
+3. Entre na pasta:
+
+```powershell
+cd bleach-echoes-of-the-void
+```
+
+4. Compile utilizando o GCC:
+
+```powershell
+gcc -std=c99 -Wall -Wextra -Iinclude src/main.c src/jogo.c src/combate.c src/monstros.c src/personagem.c src/progressao.c src/tabuleiro.c src/menu.c src/historia.c -o bleach-game.exe -lm
+```
+
+5. Execute:
+
+```powershell
+.\bleach-game.exe
+```
+
+**Observação:** No Windows, o comando `make` não está disponível por padrão. Por isso, a compilação pode ser realizada diretamente pelo GCC, conforme demonstrado acima.
 
 ## Estrutura do projeto
 
