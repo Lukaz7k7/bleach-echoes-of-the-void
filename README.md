@@ -1,4 +1,10 @@
 
+<div align="center">
+
+![BLEACH: ECHOES OF THE VOID](banner.png)
+
+</div>
+
 # BLEACH: ECHOES OF THE VOID
 
 Um RPG de terminal desenvolvido em linguagem C, inspirado no universo de Bleach. O jogo apresenta combates por turnos, exploração de tabuleiro, evolução de personagem e uma história original dividida em três fases.
